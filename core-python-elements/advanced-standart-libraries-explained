@@ -1,0 +1,40 @@
+# --------------------------------------------------------------------------------------------------------------------- #
+
+functools module - Functional Programming in Python
+
+    The functools module provides higher-order functions that act on or return other functions.
+    This is essential for writing reusable, efficient, and compact code.
+
+    functools.reduce(lambda, iterator) - performing reduce stream operation.
+    functools.partial(func_name, hardcoded_argument_value) - set fix value for an function argument, return a pointer to a new function.
+    @functools.lru_cache(max_size) - a decorator function for caching function results with LRU policy.
+    @functools.wraps(func) - a decorator for saving other decorators to save original func metadata.
+    @functools.total_ordering - a class decorator to define ordering between class attributes. applicable if you have __eq__ and __gt__ or __lt__.
+
+# --------------------------------------------------------------------------------------------------------------------- #
+
+itertools module - Iterators for Efficient Looping
+
+    The itertools module provides functions that work with iterators to create fast and memory-efficient loops.
+    Many of these functions return iterators, meaning they generate their elements lazily (only when needed),
+    which is great for working with large datasets.
+
+    itertools.count(start,step) - generate on demand (memory-efficient) infinity elements starting from 'start' with step jumps.
+    itertools.cycle(iterator) - cycle over an iterator indefinitely.
+    itertools.permutations(iterator, length) - return all permutations in length.
+    itertools.combinations(iterator, length) - return all combinations in length.
+
+# --------------------------------------------------------------------------------------------------------------------- #
+
+concurrent.future - High-Level Concurrency
+
+    The concurrent.futures module simplifies multitasking execution, allowing you to run functions concurrently
+    using thread or process pools. OS-level context switching (for threads) contradict to asyncio module, which is task-level
+    context switch, as a single-threaded with an event loop.
+    If a thread is waiting on I/O, the OS can switch to another thread that is ready to run, by MLFQ scheduling.
+    When you create a ThreadPoolExecutor or ProcessPoolExecutor, you can specify the number of worker threads or processes
+    using the max_workers parameter. The executor will manage this pool of workers, distributing tasks among them.
+
+    concurrent.futures.ThreadPoolExecuter(max_workers) - a context manager class that returns an executor to create new threads. (with concurrent.futures.ThreadPoolExecutor() as executor)
+    executor.submit(function, args) - start running a new thread with GIL permissions, return a Future object (pending result).
+    future.result() - will block the execution flow and will wait for completion of current Future object.
