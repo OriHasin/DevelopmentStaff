@@ -1,0 +1,42 @@
+This is a very basic and widely file, from zero to master core concepts in Python web development.
+
+
+    * Web Server - handles requests and forwards them to applications.
+
+        A web server is software that handles incoming HTTP requests from clients (like browsers), serves static content (like HTML, CSS, images),
+        and forwards dynamic requests to web applications for processing. It listens for requests over a network (typically HTTPS).
+
+        Examples: Apache, Nginx, Microsoft IIS
+
+        Installation:
+            sudo apt install nginx
+            # or
+            sudo apt install apache2
+
+
+    * WSGI (WebServer Gateway Interface) - provides a bridge between the web server and Python web frameworks.
+
+        WSGI is a protocol (specifications) that allows communication between a web server (like Nginx or Apache) and a Python application (like Flask or Django).
+        The WSGI server implements this standard to act as a middleman between the web server and the Python web application.
+        A WSGI server is a server that serves dynamic content from Python web applications (like Flask or Django).
+        It bridges the gap between a web server (like Nginx) and your Python application by providing a standardized way for them to communicate.
+
+        NOTE: ASGI is the successor to WSGI, designed to handle asynchronous and synchronous communication.
+        allowing it to handle more advanced use cases like WebSockets (protocol for full-duplex communication channels over a single TCP connection)
+        ,long-lived connections, and background tasks.
+
+        Examples: Gunicorn, uWSGI, Waitress,
+
+        Installation:
+            pip install gunicorn
+            gunicorn myapp:app
+
+
+    * Web Framework - The actual source code that processes requests and generates responses.
+
+        A web framework is a collection of libraries and tools that make it easier to build web applications by
+        handling tasks like routing URLs, processing requests, handling databases, and rendering templates
+        (dynamically replace placeholder variables inside HTML files with actual customized values).
+
+        Examples: Flask, Django, FastAPI
+
