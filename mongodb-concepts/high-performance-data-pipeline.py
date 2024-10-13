@@ -12,6 +12,7 @@ def get_top_spenders(last_n_days=30, limit=10):
     client = MongoClient("mongodb://localhost:27017/")
     db = client["commerce"]
     collection = db["products"]
+    collection.create_index("timestamp")
 
     # Calculate the date 30 days ago from today
     thirty_days_ago = datetime.now() - timedelta(days=last_n_days)
