@@ -1,0 +1,63 @@
+Type of communication between microservices:
+
+
+    - Synchronous communication (request-response based):
+        In this pattern, one microservice sends a request to another microservice and waits for a response.
+        Suitable for use cases where an immediate response is needed, such as authenticating a user, validating a transaction, etc.
+        useful for cases when we need to get an immediate response and we want to block the processing until response has arrived.
+        (for example, we dont want to continue processing before authenticate the user).
+
+        Examples: REST API over HTTPS, gRPC
+
+
+
+    - Asynchronous communication (message based):
+        In this pattern, one microservice sends a message to another service or to a message broker, which ensures that
+        the message is delivered even if the target service is temporarily unavailable.
+        Useful for real-time processing, event-driven architectures, and loosely coupled services.
+        Especially effective for high-scale, low-latency systems where microservices need to process events without blocking.
+
+        Examples: Message queues (e.g., Kafka, RabbitMQ), Pub/Sub systems (e.g., AWS SNS/SQS, Google Pub/Sub)
+
+        Use Case: Event Streaming: Can use Kafka to listen to events from chat messages.
+        If a suspicious message is detected, an alert can be triggered (event to another topic) and processed independently.
+
+
+
+    - Efficient communication: Protocols & Formats:
+        Binary Protocols for High Throughput: While REST is based on HTTP, using binary protocols like gRPC for
+        microservices communication. It’s more efficient, especially when need low-latency communication.
+
+        Data Serialization: Protobuf (Protocol Buffers) or Avro for efficient data serialization.
+        JSON is more human-readable but less efficient for large-scale systems.
+
+
+
+
+Important Services:
+
+    - API Gateway:
+        An API Gateway acts as a single entry point for all external communication. It routes requests to the appropriate microservice.
+        Responsibilities:
+            Load Balancing: Distributes requests evenly across multiple instances of microservices.
+            Authentication: Manages authentication centrally (validate JWT tokens or sessions ID), rather than each service implementing its own.
+            Rate Limiting: Ensures that a single client cannot overwhelm the system by limiting the number of requests.
+
+        Examples: Nginx, Apache HTTP Server, AWS API Gateway
+
+
+    - User Management Service:
+        Manages users, handles the login process, generates tokens, and controls session data. this service will implement the ORM or ODM classes.
+        Responsibilities:
+            Manages user profiles - Handles user registration, updates to profile information, and account deletions.
+            Authentication - Validates user credentials when they log in, issues authentication tokens (e.g., JWT tokens) upon successful login.
+            Session Management - Keeps track of user sessions and ensures session continuity, manages refresh tokens.
+
+
+
+
+
+
+
+
+
