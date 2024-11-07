@@ -1,0 +1,34 @@
+Authentication and Authorization Best Practices
+-----------------------------------------------
+
+### Types of Authentication and Authorization
+
+1. **Session-Based (Stateful)**:
+   - **Session cookies** store a session ID that links to data on the server (e.g., user info).
+   - **Server-side storage** maintains the session state, making it easy to track users across requests.
+   - **Simple implementation**: Common in web applications and doesn’t require complex token handling.
+   - **Scalability limitation**: Each server must access the session storage, adding load and complexity in distributed systems.
+
+2. **Token-Based (Stateless)**:
+   - **JWT (JSON Web Token)**:
+     - Self-contained token with user claims, signed by the server, stored client-side.
+     - Enables **stateless** authentication, eliminating server-side session storage.
+     - **Verification-only** on each request, enhancing scalability.
+     - Revocation is challenging; use **short expiration** to reduce security risks.
+
+   - **API Keys**:
+     - Unique identifier for each client, typically in headers for API requests.
+     - Suitable for **basic authentication** where user-specific data isn’t required.
+     - Does not carry user roles or claims, limiting scope to identifying the requester.
+
+3. **OAuth2**:
+   - **Access Tokens**: Short-lived, used for authorization to specific resources.
+   - **Refresh Tokens**: Allow new access tokens without re-authentication, keeping sessions valid.
+   - Supports **third-party access** without exposing user credentials.
+   - **Best for large-scale apps** or cases needing secure access control, but can be complex to implement.
+
+### Best Practices
+- **Use HTTPS**: Ensures data confidentiality, integrity, and protection from attacks.
+- **Limit Token Lifetimes**: Reduces risk of compromised tokens; users can refresh for extended sessions.
+- **Store Tokens Securely**: For web apps, use `HttpOnly` cookies to prevent JavaScript access and XSS attacks.
+- **Implement Role-Based Access Control (RBAC)**: Restricts actions based on user roles to protect resources and improve security.
