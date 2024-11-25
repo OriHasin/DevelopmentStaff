@@ -1,7 +1,7 @@
 // AsyncProgramming.java
 
 /*
- * Asynchronous Programming in Java
+ * Asynchronous Programming in Java.
  * Java provides multithreading and asynchronous capabilities through Thread, ExecutorService, and CompletableFuture.
  * Key Concepts:
  * 1. **Threads and Thread Pools**: Threads are lightweight processes, and thread pools manage multiple threads efficiently.
@@ -13,7 +13,10 @@
  * - Java uses native threads managed by the OS, supporting true parallelism.
  */
 
-
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.CompletableFuture;
 
 // --- Basic Threads ---
 class BasicThreadExample {
@@ -86,9 +89,8 @@ class SyncExample {
  * Advantages:
  * 1. Ability to try acquiring a lock (`tryLock`).
  * 2. Explicit locking/unlocking with more control.
- * 3. Avoids deadlocks with timed locks.
+ * 3. Avoid deadlocks with timed locks.
  */
-import java.util.concurrent.locks.ReentrantLock;
 
 class ReentrantLockExample {
     private final ReentrantLock lock = new ReentrantLock();
@@ -116,8 +118,7 @@ class ReentrantLockExample {
  * - execute(): Submits a task for execution.
  * - submit(): Similar to execute, but returns a Future for task results.
  */
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 class ThreadPoolExample {
     public static void main(String[] args) {
@@ -150,7 +151,6 @@ class ThreadPoolExample {
  * - allOf(): Waits for multiple CompletableFutures to complete without blocking.
  * - join(): Waits for the result of a CompletableFuture, with block the execution flow.
  */
-import java.util.concurrent.CompletableFuture;
 
 class CompletableFutureExample {
     public static void main(String[] args) {

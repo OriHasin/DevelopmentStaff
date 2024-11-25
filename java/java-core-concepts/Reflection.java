@@ -4,9 +4,6 @@
  * Reflection in Java
  * Reflection allows runtime inspection and manipulation of classes, methods, fields, and constructors.
  *
- * Use Cases:
- * - Frameworks (e.g., Spring, Hibernate).
- * - Testing and dynamic invocation.
  *
  * Key Methods:
  * - getConstructor(): Gets a Constructor object.

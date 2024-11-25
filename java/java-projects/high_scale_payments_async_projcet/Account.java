@@ -1,6 +1,4 @@
-import java.util.concurrent.*;
-import java.util.*;
-
+package high_scale_payments_async_projcet;
 class Account {
     private double balance;
     private final Object lock = new Object(); // Lock for synchronizing account balance changes

@@ -1,3 +1,10 @@
+package high_scale_payments_async_projcet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 class TransactionProcessor {
     private final Map<String, Account> accounts = new HashMap<>();
     private final ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -12,7 +19,7 @@ class TransactionProcessor {
             if (account != null) {
                 account.deposit(amount);
             } else {
-                System.out.println("Account not found: " + accountId);
+                System.out.println("src.Account not found: " + accountId);
             }
         }, executor);
     }
@@ -27,7 +34,7 @@ class TransactionProcessor {
                     System.out.println("Error processing withdrawal: " + e.getMessage());
                 }
             } else {
-                System.out.println("Account not found: " + accountId);
+                System.out.println("src.Account not found: " + accountId);
             }
         }, executor);
     }
