@@ -1,0 +1,48 @@
+Broker ID
+    Key: broker.id
+    Default: 0 (if not explicitly set, it is automatically generated starting from 0).
+    Purpose: Identifies a broker in the cluster. Each broker must have a unique broker.id.
+    Log Directories
+
+Key: log.dirs
+    Default: /tmp/kafka-logs
+    Purpose: Directories where Kafka stores log files (partitions and offsets).
+    Recommendation: Use different directories for brokers on the same machine.
+
+ZooKeeper Connect
+    Key: zookeeper.connect
+    Default: None (must be set if using ZooKeeper).
+    Purpose: Specifies the ZooKeeper ensemble (e.g., localhost:2181).
+    Required: If using ZooKeeper (Kafka 2.8+ can optionally use KRaft).
+
+Default Replication Factor
+    Key: default.replication.factor
+    Default: 1
+    Purpose: Default number of replicas for new topics.
+
+Number of Partitions
+    Key: num.partitions
+    Default: 1
+    Purpose: Default number of partitions for new topics.
+
+Listener and Networking
+    Key: listeners
+    Default: PLAINTEXT://localhost:9092
+    Purpose: Specifies how the broker communicates with clients (broker binds and listen to request from localhost endpoint at port 9092).
+    Recommended for multi-broker setup on the same machine: Assign unique ports (e.g., 9092, 9093, 9094).
+
+Advertised Listeners
+    Key: advertised.listeners
+    Default: None (must be explicitly set when needed).
+    Purpose: Specifies the external-facing addresses and ports that Kafka brokers advertise to clients for establishing connections.
+    This is essential in multi-node setups, containerized environments, or when Kafka runs behind NAT/firewalls,
+    as it provides clients with a reachable address different from the broker's local binding.
+
+    ** listeners: Handles the actual network binding for incoming client connections.
+    ** advertised.listeners: Informs clients about where they can find the broker.
+    ** The client connects via the advertised address, and the listener handles the connection on the broker side.
+
+Log Retention
+    Key: log.retention.hours
+    Default: 168 (7 days)
+    Purpose: Time to retain log segments before deletion.

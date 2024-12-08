@@ -1,0 +1,78 @@
+
+services:
+  kafka1:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka1
+    environment:
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS:
+        PLAINTEXT://0.0.0.0:9092, 
+        CONTROLLER://0.0.0.0:9095,
+        INTERNAL://0.0.0.0:29090
+      KAFKA_ADVERTISED_LISTENERS:
+        PLAINTEXT://localhost:9092,
+        INTERNAL://kafka1:29090
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka1:9095,2@kafka2:9096,3@kafka3:9097
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, CONTROLLER:PLAINTEXT, INTERNAL:PLAINTEXT
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      CLUSTER_ID: 6qXkeG9RRZK-upCtnE-q5Q
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka1-data:/var/lib/kafka/data
+
+  kafka2:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka2
+    environment:
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 2
+      KAFKA_LISTENERS:
+        PLAINTEXT://0.0.0.0:9092, 
+        CONTROLLER://0.0.0.0:9096,
+        INTERNAL://0.0.0.0:39090
+      KAFKA_ADVERTISED_LISTENERS:
+        PLAINTEXT://localhost:9093,
+        INTERNAL://kafka2:39090
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka1:9095,2@kafka2:9096,3@kafka3:9097
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, CONTROLLER:PLAINTEXT, INTERNAL:PLAINTEXT
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      CLUSTER_ID: 6qXkeG9RRZK-upCtnE-q5Q
+    ports:
+      - "9093:9092"
+    volumes:
+      - kafka2-data:/var/lib/kafka/data
+
+  kafka3:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka3
+    environment:
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: 3
+      KAFKA_LISTENERS:
+        PLAINTEXT://0.0.0.0:9092, 
+        CONTROLLER://0.0.0.0:9097,
+        INTERNAL://0.0.0.0:49090
+      KAFKA_ADVERTISED_LISTENERS:
+        PLAINTEXT://localhost:9094,
+        INTERNAL://kafka3:49090
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka1:9095,2@kafka2:9096,3@kafka3:9097
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, CONTROLLER:PLAINTEXT, INTERNAL:PLAINTEXT
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      CLUSTER_ID: 6qXkeG9RRZK-upCtnE-q5Q
+    ports:
+      - "9094:9092" #   <host port>:<container port>
+    volumes:
+      - kafka3-data:/var/lib/kafka/data
+
+volumes:
+  kafka1-data:
+  kafka2-data:
+  kafka3-data:
