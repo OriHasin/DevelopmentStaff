@@ -108,3 +108,71 @@ console.log("End");
 // Explanation:
 // The fetchData function is asynchronous, and await is used to pause the function until the Promise resolves.
 // This makes the code look synchronous while still being asynchronous.
+
+
+
+// --------------------------------------- High Performance Examples ------------------------------------------------
+
+// Each Promise waits sequentially, so the total time is the sum of the individual wait times:
+// 2 seconds (1st promise) + 2 seconds (snd promise) + 2 seconds (3rd promise) = 6 seconds.
+async function fetchData() {
+    let message = await new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Data fetched using async/await!");
+        }, 2000);
+    });
+    console.log(message);
+
+    let message2 = await new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Data fetched using async/await!");
+        }, 2000);
+    });
+    console.log(message2);
+
+    let message24 = await new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Data fetched using async/await!");
+        }, 2000);
+    });
+    console.log(message24);
+}
+
+
+
+
+// If the Promises are independent and don't rely on each other's resolved values, you can execute them concurrently using
+// Promise.all. This will reduce the total wait time to 2 seconds because all Promises start at the same time:
+
+async function fetchData() {
+    const [message1, message2, message3] = await Promise.all([
+        new Promise((resolve) => setTimeout(() => resolve("Data 1 fetched!"), 2000)),
+        new Promise((resolve) => setTimeout(() => resolve("Data 2 fetched!"), 2000)),
+        new Promise((resolve) => setTimeout(() => resolve("Data 3 fetched!"), 2000))
+    ]);
+
+    console.log(message1);
+    console.log(message2);
+    console.log(message3);
+
+
+
+/*
+Why JavaScript Doesn't Require Cooperative Tasks:
+
+Delegation to External APIs:
+    In JavaScript, when you initiate an asynchronous operation (e.g., fetch, setTimeout, or file I/O in Node.js):
+        The JavaScript engine delegates the operation to the environment's API (like Web APIs or libuv).
+        These APIs handle the work (using their own threads, processes, or other mechanisms) outside of the JavaScript runtime.
+
+    Non-blocking Main Thread:
+        The JavaScript runtime only "knows about" the operation when the external API signals its completion. This result is placed in the task queue for the event loop to pick up.
+        Since the main JavaScript thread is not involved in the actual execution of the operation, it doesn’t block or require yielding.
+
+Comparison with Python asyncio:
+    In Python's asyncio, the default event loop does not have access to a pre-configured external system like Web APIs or libuv.
+    By default, all tasks are handled in a single thread, requiring tasks to yield control cooperatively via await.
+
+*/
+}
+
