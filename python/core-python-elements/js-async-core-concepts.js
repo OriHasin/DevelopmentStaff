@@ -44,7 +44,7 @@ console.log("End");
 
 // A Promise can be in one of three states:
 // 1. Pending: The initial state, before the operation has completed.
-// 2. Resolved: The operation has completed successfully.
+// 2. Resolved: The operation has completed successfully (fulfilled).
 // 3. Rejected: The operation has failed.
 
 // Example of using Promises:
