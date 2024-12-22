@@ -40,3 +40,15 @@ This is a very basic and widely file, from zero to master core concepts in Pytho
 
         Examples: Flask, Django, FastAPI
 
+
+
+
+    Client → Web Server → WSGI Server → Web Framework (Your Python App)
+
+    Example Flow:
+    A client sends an HTTP request to the web server (e.g., Nginx).
+    The web server forwards the request to the WSGI server (e.g., Gunicorn).
+    The WSGI server communicates with the Python web framework (e.g., Flask).
+    The framework processes the request, generates a response, and sends it back through the WSGI server to the client.
+
+

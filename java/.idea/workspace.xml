@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ada36653-2e29-42d2-96c5-94ed2c8c9fb3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DevelopmentStaff.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AsyncProcessing.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-core-concepts/AsyncProcessing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Generics.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-core-concepts/Generics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Reflection.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-core-concepts/Reflection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-high-scale-payments-async-projcet/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-projects/high_scale_payments_async_projcet/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-high-scale-payments-async-projcet/InsufficientFundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-projects/high_scale_payments_async_projcet/InsufficientFundsException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-high-scale-payments-async-projcet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-projects/high_scale_payments_async_projcet/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-high-scale-payments-async-projcet/TranscationProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/java-projects/high_scale_payments_async_projcet/TranscationProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../python/core-python-elements/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/authentication_authorization/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/../python/OpenTelemetry/opentelemetry.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../python/python-web-frameworks/core-web-servers-explained" beforeDir="false" afterPath="$PROJECT_DIR$/../core-web-servers-explained" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,14 +25,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/orihasin/PycharmProjects/DevelopmentStaff/java",
-    "settings.editor.selected.configurable": "vcs.Git"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/orihasin/PycharmProjects/DevelopmentStaff/java&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/java-core-concepts" />
