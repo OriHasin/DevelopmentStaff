@@ -1,18 +1,18 @@
 Event Loop Internals: JavaScript & Python
 =========================================
 
-Synchronous code executes each line sequentially, waiting for each to finish before moving on, 
-while asynchronous code can start an operation and move on to the next without waiting for the previous one to complete. 
+Synchronous code executes each line sequentially, waiting for each to finish before moving on,
+while asynchronous code can start an operation and move on to the next without waiting for the previous one to complete.
 Synchronous operations are therefore blocking, while asynchronous operations are non-blocking.
 
 
 
 Core Concepts
 --------------
-- **Single-Threaded Execution**: Both JavaScript and Python (when using asyncio) primarily operate within a single-threaded environment. 
-This means they execute one piece of code at a time, relying on an event loop to handle asynchronous operations.
+- **Single-Threaded Execution**: Both JavaScript and Python (when using asyncio) primarily operate within a single-threaded environment.
+This means they execute one piece of code at a time, from the call stack, relying on an event loop to handle asynchronous operations.
 
-- **Non-Blocking Asynchronicity**: The event loop allows for non-blocking asynchronous operations, so the main thread isn't held up waiting for I/O or other time-consuming tasks. 
+- **Non-Blocking Asynchronicity**: The event loop allows for non-blocking asynchronous operations, so the main thread isn't held up waiting for I/O or other time-consuming tasks.
 Instead, these operations are managed concurrently by other mechanisms, with their results managed by the event loop.
 
 
@@ -21,54 +21,66 @@ JavaScript Event Loop
 ---------------------
 - **Call Stack**: The call stack executes synchronous code.
 
-- **Web APIs**: The browser provides Web APIs (e.g., setTimeout, fetch, DOM events) to handle asynchronous operations. 
+- **Web APIs**: The browser / Node.JS provides Web APIs  (e.g., setTimeout, fetch, DOM events) to handle asynchronous operations.
 These APIs are not part of the JavaScript engine itself. When an asynchronous operation starts, the Web API takes over.
 
-- **Callback/Task Queue**: When an asynchronous operation completes, its corresponding callback is placed in the callback queue 
+- **Callback/Task Queue**: When an asynchronous operation completes, its corresponding callback is placed in the callback queue
 (also known as the task queue).
 
 - **Microtask Queue**: JavaScript also uses a microtask queue for higher-priority tasks like promise resolutions.
 
-- **Event Loop**: The event loop monitors the call stack and the queues. If the call stack is empty, 
-the event loop first checks the microtask queue, moving any ready microtasks to the call stack. If the microtask queue is empty, 
+- **Event Loop**: The event loop monitors the call stack and the queues. If the call stack is empty,
+the event loop first checks the microtask queue, moving any ready microtasks to the call stack. If the microtask queue is empty,
 it moves the first task from the task queue to the call stack for execution. This process is continuous.
 
-- **Promises and Event Loop**: Promises are managed by the microtask queue. When a promise resolves or rejects, 
+- **Promises and Event Loop**: Promises are managed by the microtask queue. When a promise resolves or rejects,
 its then() or catch() callbacks are added to the microtask queue. The event loop will process the microtask queue before moving to the task queue.
 
-- **async/await**: Javascript's async functions return a Promise. The await keyword pauses the execution of the async function until the Promise resolves or rejects. 
-Behind the scenes, JavaScript's async/await uses the same event loop and callback queue mechanisms. 
-When an await is encountered, the function's execution is paused, and a callback is placed on the queue. 
-When the promise is resolved, the event loop resumes the function from where it was paused.
+- **async/await**: Javascript's async functions return a Promise. The await keyword pauses the execution of the async function until the Promise resolves or rejects.
+Behind the scenes, JavaScript's async/await uses the same event loop and callback queue mechanisms.
+When an await is encountered, The async function's execution is paused, and control returns to the event loop.
+The Promise associated with the await starts executing (if it hasn't already).
+Once the Promise settles, the remainder of the async function (the continuation) is scheduled as a microtask (higher priority than regular tasks).
+
 
 JavaScript relies on Web APIs or C++ APIs in Node.js to manage asynchronous operations.
 These APIs handle tasks like timers, network requests, and DOM events, and they place callbacks in the task queue when operations are complete.
 
 
 
-Python Event Loop (asyncio)
----------------------------
-- **Call Stack**: Similar to JavaScript, the call stack executes synchronous code or coroutines.
 
-- **Coroutines**: Python's asyncio uses coroutines (async def) to define asynchronous functions.
+Python Asyncio Event Loop
+-------------------------
+- **Call Stack**: Executes synchronous code and manages the execution of coroutines when they are run.
 
-- **Task Queue**: Coroutines that are ready to be executed are stored in the task queue.
+- **Coroutines**: Python's asyncio uses coroutines (defined with `async def`) as the basic units of asynchronous programming.
+These coroutines are paused and resumed at specific await points, allowing other tasks to run.
 
-- **Event Loop**: The event loop continuously monitors the task queue, and when an awaited operation is complete, 
-the ready coroutine is moved to the call stack.
+- **Task**: A coroutine wrapped in a Task object using `asyncio.create_task()` is scheduled to run by the event loop.
+Tasks represent units of work that are tracked and managed by the event loop. Tasks have states like PENDING (running / waiting), CANCELED, or FINISHED
 
-- **Scheduler**: The asyncio scheduler keeps track of the state of coroutines. When a coroutine encounters an await statement 
-(e.g., await asyncio.sleep(1)), its execution is paused. The scheduler marks the coroutine as "waiting" and places it in the task queue. 
-When the awaited operation is complete, the scheduler marks the coroutine as "ready", and the event loop moves it back to the call stack to resume execution.
+- **Ready Queue**: The event loop maintains a ready queue, which contains tasks that are ready to execute immediately.
+Tasks in this queue are moved to the call stack for execution.
 
-- **Cooperative Multitasking**: asyncio uses cooperative multitasking, meaning that coroutines voluntarily yield control at await points.
+- **Microtasks**: Similar to JavaScript, asyncio can execute small tasks (like callbacks or future completions) as part of its loop.
+These are handled before returning to the main ready queue.
 
-- **asyncio.create_task()**: This function schedules a coroutine to run concurrently with the main coroutine by placing it into the task queue.
+- **Event Loop**: The event loop is the central orchestrator of asyncio.
+It continuously:
+    - Executes tasks from the ready queue.
+    - Monitors external events (like I/O, timers, etc.).
+    - Schedules the execution or resumption of coroutines based on completed I/O or other events.
 
-- **await**: When await is used, it does pause the execution of the coroutine itself, unlike JavaScript, 
-where the await pauses the async function but does not block the execution of the main flow. Without asyncio.create_task, 
-a coroutine will block the main flow and wait for the async task to finish. But when using asyncio.create_task, 
-the task runs concurrently with the main flow, and main continues immediately without waiting for the async task to finish.
+- **Await Points**: When a coroutine encounters an `await`, it suspends execution at that point.
+The event loop marks the coroutine as "waiting" and resumes other tasks.
+When the awaited condition is satisfied, the coroutine is moved back to the ready queue for execution.
+
+- **Timers and I/O**: Timers (e.g., `await asyncio.sleep()`) and I/O operations are managed by the event loop.
+The event loop leverages the operating system's capabilities (via libraries like `select` or `epoll`) for efficient monitoring.
+
+- **Cooperative Multitasking**: asyncio relies on cooperative multitasking, meaning that tasks voluntarily yield control at `await` points.
+This allows other tasks to execute without preemption.
+
 
 
 
@@ -76,15 +88,16 @@ the task runs concurrently with the main flow, and main continues immediately wi
 Key Differences in Event Loop Internals
 --------------------------------------
 - **Asynchronous Operation Management**:
-  - JavaScript: Relies on external Web APIs (or C++ APIs in Node.js) to handle asynchronous operations and place callbacks in the task queue when operations are complete.
-  - Python: Uses the asyncio library and a scheduler to manage coroutines and their states, moving them between the call stack and the task queue.
+  - **JavaScript**: Relies on external Web APIs (or C++ APIs in Node.js) to handle asynchronous operations, such as I/O or timers,
+  and places corresponding callbacks in the task queue when these operations are completed.
 
-
-- **Task Queues**:
-  - JavaScript: Uses a microtask queue (for promises) and a macrotask queue (for other async operations). Microtasks have higher priority.
-  - Python: Primarily uses one task queue, and tasks are executed in the order they are scheduled.
+  - **Python**: Uses the asyncio library, which provides a task scheduler to manage coroutines, transitioning them between the call stack,
+  task queue, and other internal states. The scheduler ensures the correct order of execution based on coroutine readiness.
 
 
 - **Pausing Execution**:
-  - JavaScript: await pauses the execution of the async function, but does not block the main flow, and relies on Web APIs.
-  - Python: await pauses the coroutine’s execution and yields control back to the event loop.
+  - **JavaScript**: The `await` keyword pauses the execution of the async function, but the event loop continues executing other code.
+  The asynchronous operation is delegated to Web APIs (in the browser) or Node.js APIs (in Node.js), which do not block the main flow.
+  
+  - **Python**: The `await` keyword pauses the coroutine's execution and yields control back to the event loop.
+  The coroutine’s execution is suspended until the awaited operation completes, but other tasks (coroutines or callbacks) can run in the meantime.

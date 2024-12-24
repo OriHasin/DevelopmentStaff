@@ -41,6 +41,8 @@ console.log("End");
 // (or failure) of an asynchronous operation and its resulting value.
 // Promises allow better handling of asynchronous code compared to callbacks,
 // avoiding the problem known as "callback hell."
+// every Promise gets an Executor Function to run immediately when the Promise is created.
+// the Executor Function get 2 params (resolve, reject) which set the return types of the promise when it completed.
 
 // A Promise can be in one of three states:
 // 1. Pending: The initial state, before the operation has completed.

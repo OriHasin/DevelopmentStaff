@@ -6,7 +6,8 @@ import time
 async def io_bound_task():
     print("Starting I/O-bound task...")
     await asyncio.sleep(2)  # Simulate I/O operation with a delay
-    print("I/O-bound task complete.")
+    for i in range(10000):
+        print("I/O-bound task complete.", flush=True)
 
 # CPU-bound task (simulating a computationally intensive task)
 def cpu_bound_task():
@@ -14,7 +15,7 @@ def cpu_bound_task():
     result = 0
     for i in range(100000000):  # Reduced the loop size for demonstration purposes
         result += i
-    print(f"CPU-bound task complete with result: {result}")
+    print(f"CPU-bound task complete with result: {result}" * 5, flush=True)
 
 # Main function to run both tasks
 async def main():
