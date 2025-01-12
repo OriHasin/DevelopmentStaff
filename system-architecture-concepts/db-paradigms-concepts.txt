@@ -1,0 +1,56 @@
+Briefing Document: Database Selection and Architecture Considerations
+
+1. Database Types and Characteristics
+
+- **Relational Databases (SQL):**
+  - **Model:** Structured tables with fixed schemas, rows, and columns.
+  - **Strengths:** Strong ACID compliance, excellent for complex queries and joins, mature ecosystem.
+  - **Use Cases:** Applications needing strict consistency (banking, e-commerce), complex analytical reporting.
+  - **Scalability:** Traditionally vertical, modern distributed SQL offers horizontal scaling - CP (CAP Theorem).
+
+- **Key-Value Stores:**
+  - **Model:** Simple key-value pairs.
+  - **Strengths:** Extremely fast for simple operations, schema-agnostic, easy horizontal scaling.
+  - **Use Cases:** Caching (Redis, Memcached), session management, feature toggles.
+  - **Scalability:** Horizontal with partitioning, typically AP in CAP theorem.
+
+- **Wide-Column Stores:**
+  - **Model:** Rows grouped into column families, dynamic columns per row.
+  - **Strengths:** Optimized for write-heavy workloads, efficient range queries, handles sparse data.
+  - **Use Cases:** IoT data, time-series databases, real-time analytics.
+  - **Scalability:** Horizontally scalable with native sharding and replication.
+  - NOTE: each column family (table) defined Primary Key which determines how data is partitioned (or sharded).
+          by default, the rows of each PK are sorted by clustering key or by range they have added.
+          PK can have muliple rows. all rows for specific PK must have the same columns. (different PKs can have different columns in the column family).
+          can't have complex queries comparing to SQL.
+
+- **Document Stores:**
+  - **Model:** JSON-like documents with nested, hierarchical data.
+  - **Strengths:** Flexible schema, supports ad hoc queries and secondary indexes.
+  - **Use Cases:** Content management, e-commerce catalogs, event tracking.
+  - **Scalability:** Horizontal scaling with sharding, suitable for both read-heavy and write-heavy loads.
+
+- **Graph Databases:**
+  - **Model:** Data represented as nodes and edges with properties.
+  - **Strengths:** Designed for relationship-centric data, efficient graph traversal, schema flexibility.
+  - **Use Cases:** Social networks, fraud detection, recommendation engines, knowledge graphs.
+  - **Scalability:** Challenging but manageable with tools like AWS Neptune, typically CP in CAP theorem.
+
+2. Key Takeaways for Database Selection
+- Relational databases excel in structured, transactional use cases; NoSQL options provide flexibility and scalability for modern workloads - can choose to be AP or CP.
+- Choose a database based on the nature of your data and access patterns:
+  - **SQL:** Complex relationships, strict consistency.
+  - **Key-Value:** Simple, ultra-fast lookups and caching.
+  - **Wide-Column:** Write-heavy workloads and predictable queries.
+  - **Document:** Flexible, nested data with dynamic queries.
+  - **Graph:** Complex, relationship-heavy datasets.
+- Scalability depends on architecture:
+  - SQL is traditionally vertical but can scale horizontally with modern solutions (NewSQL).
+  - NoSQL options are natively horizontally scalable.
+
+3. Practical Considerations:
+- Exhaust all possibilities with your current database (e.g., tuning, sharding, caching) before migrating.
+- Benchmark candidate databases using real-world data and workloads.
+- Carefully plan migrations with phased rollouts to mitigate risk.
+- Embrace trade-offs: There’s no perfect database; each option has strengths and weaknesses.
+

@@ -1,0 +1,56 @@
+AWS EC2 Pricing Models: A Briefing Document
+
+Introduction:
+Amazon EC2 offers several pricing models, each tailored to different use cases. This document explains each pricing model, helping you understand when to use each one.
+
+1. Pay-As-You-Go (On-Demand)
+   - How it works: You pay for compute time by the second or hour with no long-term commitment.
+   - When to use it: Ideal for short-term, unpredictable workloads, or for development and testing. You only pay for the time the instance is running.
+   - Cost: Higher than other options due to its flexibility.
+   - Flexibility: High. No commitment; start and stop instances as needed.
+
+2. Reserved Instances (RIs)
+   - How it works: Commit to using an instance for 1 or 3 years and receive discounts (up to 75%) compared to On-Demand.
+   - Types:
+     - Standard RIs: Lowest cost but less flexibility.
+     - Convertible RIs: Slightly higher cost but allow changes in instance types.
+   - When to use it: Best for predictable workloads with steady usage. Offers savings for long-term needs.
+   - Cost: Lower than On-Demand, but you pay for the reserved capacity even if not used.
+   - Flexibility: Limited, due to commitment.
+
+3. Savings Plans
+   - How it works: Commit to a specific amount of compute usage (e.g., $10/hour) for 1 or 3 years, regardless of instance type or region.
+                   The discount applies to any EC2 instance you use, as long as the total hourly cost stays within your committed amount
+   - When to use it: Best for flexible workloads across various instance families and regions.
+   - Flexibility: Medium. You can switch instance types and regions.
+
+4. Spot Instances
+   - How it works: Use spare, unused EC2 capacity of AWS at discounts of up to 90%, but with the risk of instances being terminated when AWS needs the capacity.
+   - When to use it: Ideal for batch jobs, data analysis, CI/CD pipelines, or fault-tolerant applications. Spot Instances are suitable for workloads that can be interrupted and resumed.
+   - Cost: Very low, but with the risk of interruption.
+   - Flexibility: High. Start instances as needed, but they may be interrupted.
+
+5. Dedicated Hosts
+   - How it works: Run your instances on a physical server dedicated to you.
+   - When to use it: Best for compliance or licensing requirements.
+   - Flexibility: Low. Committed to a physical server.
+
+Key Concepts:
+- Flexibility: Refers to how adaptable a pricing model is to changing needs.
+   - High Flexibility: No long-term commitment; ideal for unpredictable workloads (On-Demand, Spot Instances).
+   - Low Flexibility: Involves commitment to a fixed cost with less adaptability (Reserved Instances, Dedicated Hosts).
+- Fault-tolerant Workloads: Workloads that can handle interruptions without loss of critical functionality. Spot Instances are great for these workloads because they can resume or restart tasks after interruptions.
+- Real-time Processing: Applications requiring continuous, predictable compute power (e.g., analytical services). Spot Instances are unsuitable for real-time processing due to the possibility of interruptions.
+- Cost Optimization: Flexible models like On-Demand and Spot Instances allow you to only pay for what you use, optimizing costs by scaling up or down based on demand.
+
+Additional Costs:
+- Storage: You pay for Elastic Block Store (EBS) volumes attached to EC2 instances.
+- Data Transfer: You are charged for data leaving EC2 instances to the internet; inbound traffic is free.
+- Elastic IPs: You are charged for unused Elastic IP addresses.
+
+Summary:
+- On-Demand: Great for short, unpredictable usage.
+- Reserved Instances: Best for predictable, long-term workloads.
+- Savings Plans: Offers flexibility across instance types and regions.
+- Spot Instances: Ideal for fault-tolerant, interruptible tasks.
+- Dedicated Hosts: Used for compliance and licensing needs.

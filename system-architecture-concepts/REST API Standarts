@@ -1,0 +1,56 @@
+Briefing Document: Understanding RESTful APIs
+
+Introduction:
+
+This document provides a summary of the core concepts and principles of REST (Representational State Transfer) APIs, based on the provided video transcript. REST is presented as a widely adopted communication standard for web and mobile applications, and the briefing aims to clarify its purpose, structure, and key characteristics.
+
+Main Themes and Key Ideas:
+
+1. What is an API and why REST?
+   - An API (Application Programming Interface) is a way for two computers to communicate.
+   - REST is the most common standard for web APIs, particularly between mobile/web applications and servers.
+   - It's a set of rules rather than a strict specification, becoming popular since the early 2000s.
+   - APIs implemented the REST principles are termed "RESTful".
+   - Examples of companies using RESTful APIs include Twilio, Stripe, and Google Maps.
+
+2. Resource-Oriented Architecture:
+   - RESTful APIs organize resources into unique URIs (Uniform Resource Identifiers).
+   - URIs differentiate the types of resources a server provides.
+   - Resources should be grouped by noun (e.g., /products), not by verb (e.g., /getAllProducts).
+
+3. HTTP Verbs and Operations (CRUD):
+   - Clients interact with resources via HTTP requests.
+   - The request includes a URI and an HTTP verb specifying the action to perform:
+     - POST: Create a new resource.
+     - GET: Read data about an existing resource.
+     - PUT: Update an existing resource.
+     - DELETE: Remove an existing resource.
+   - These verbs correspond to the CRUD operations: Create, Read, Update, and Delete.
+
+4. Request and Response Format:
+   - Requests can include an optional request body, often encoded in JSON, providing a data payload.
+   - The server processes the request and returns a response.
+   - The response includes an HTTP status code, indicating the outcome of the request:
+     - 200-level: Successful request.
+     - 400-level: Error due to client request (e.g., invalid syntax).
+     - 500-level: Error on the server side (e.g., service unavailable).
+
+5. Idempotency and Retries:
+   - Clients might choose to retry failed requests with 500-level errors.
+   - Idempotency is a key property: multiple identical requests should have the same effect as a single request.
+   - POST requests are typically not idempotent, thus requiring care when retrying.
+
+6. Statelessness:
+   - REST APIs should be stateless.
+   - Each request-response cycle is independent; neither party stores information about the other.
+   - This facilitates scalability and predictable application behaviour.
+
+7. Pagination for Large Data Sets:
+   - If an API endpoint returns a large amount of data, pagination should be implemented.
+   - Commonly uses limit and offset parameters to control the subset of results returned.
+   - Sensible default values should be used if pagination parameters are not explicitly provided by the client.
+
+8. API Versioning:
+   - API versioning is crucial for backward compatibility.
+   - Allows for changes in the API without breaking existing client applications immediately.
+   - A simple versioning strategy is to include the version number in the URI, such as /v1/products.

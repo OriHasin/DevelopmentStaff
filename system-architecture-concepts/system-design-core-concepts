@@ -7,7 +7,7 @@ Type of communication between microservices:
         useful for cases when we need to get an immediate response and we want to block the processing until response has arrived.
         (for example, we dont want to continue processing before authenticate the user).
 
-        Examples: REST API over HTTPS, gRPC
+        Examples: REST API over HTTPS, gRPC, GraphQL
 
 
 
@@ -30,6 +30,44 @@ Type of communication between microservices:
 
         Data Serialization: Protobuf (Protocol Buffers) or Avro for efficient data serialization.
         JSON is more human-readable but less efficient for large-scale systems.
+
+
+Differences between Async & Sync Communications:
+
+    Synchronous communication is when the caller sends a request and waits for an immediate response before proceeding, like in REST APIs.
+    Asynchronous communication is when the caller sends a request but doesn’t wait for a response, allowing both parties to operate independently,
+    often using message brokers like Kafka.
+
+    You should use synchronous communication when you need immediate feedback, such as in user-facing actions like authentication or payment processing.
+    Asynchronous communication is better for decoupled systems or long-running tasks, like sending emails or processing large datasets,
+    where immediate responses aren’t critical and scalability is important.
+
+
+
+    Synchronous Communication
+
+        Advantages:
+            Simplicity: Easier to implement and debug due to the straightforward request-response model.
+            Real-Time Feedback: Immediate responses allow for quick error handling and validation.
+            Predictable Flow: Ideal for tightly coupled systems where services need to coordinate closely.
+
+        Limitations:
+            Tight Coupling: Services are directly dependent on each other, making changes harder to isolate.
+            Scalability Challenges: Requires maintaining open connections, which can become resource-intensive under high traffic.
+            Timeouts and Failures: If the downstream service is slow or unavailable, the caller might face delays.
+            Network Dependency: Requires a stable and reliable network for consistent performance.
+
+    Asynchronous Communication
+
+        Advantages:
+            Decoupling: Services operate independently, reducing dependencies and enabling parallel development.
+            Scalability: Can handle large workloads by distributing tasks via queues or brokers.
+            Fault Tolerance: Failures in one service don’t immediately impact others, as messages can be retried or stored until the consumer is ready.
+            Flexibility: Multiple services can consume the same message or event, supporting extensibility in event-driven architectures.
+
+        Limitations:
+            Increased Complexity: Requires message brokers, additional infrastructure, and mechanisms to ensure delivery, ordering, and idempotency.
+            Debugging Challenges: Tracing the flow of messages through multiple services can be harder, requiring robust logging and monitoring.
 
 
 

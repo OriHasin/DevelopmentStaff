@@ -1,0 +1,32 @@
+
+AWS Storage Solutions: EC2, EKS, and ECS
+
+1. **EBS (Elastic Block Store)**:
+   - Acts like a virtual hard drive for EC2 instances (block-level storage).
+   - Tied to a single instance but supports replication for durability.
+   - Fixed size, provisioned upfront; not serverless.
+   - Pay-as-you-go but based on provisioned size (not actual usage).
+   - High IOPS and low latency (directly attached to EC2 instances).
+
+2. **EFS (Elastic File System)**:
+   - Network file system for shared, scalable storage.
+   - Serverless: Automatically grows/shrinks based on usage.
+   - Pay-as-you-go (billed per GB used).
+   - Supports multi-instance access, making it ideal for EKS or ECS clusters.
+   - Higher latency compared to EBS, as it's network-attached.
+
+3. **Storage in ECS (Elastic Container Service)**:
+   - **EBS**: Not directly configured in ECS task definitions; tied to EC2-backed clusters.
+   - **EFS**: Configurable in ECS task definitions for persistent, shared storage.
+   - **Bind Mounts**: Temporary storage on the container instance (not persistent).
+
+4. **Storage in EKS (Elastic Kubernetes Service)**:
+   - Uses persistent volumes (PV) and persistent volume claims (PVC) to manage storage.
+   - Can integrate with **EBS** for single-instance storage or **EFS** for shared storage.
+
+5. **Key Differences**:
+   - **EBS** is best for single-instance, low-latency needs (e.g., MongoDB or Postgres on EC2).
+   - **EFS** is ideal for shared, scalable access (e.g., multi-node applications on ECS/EKS).
+   - **EBS** is provisioned; **EFS** scales dynamically.
+
+**Summary**: Use EBS for high-performance, instance-specific workloads. Use EFS for scalable, shared workloads across multiple instances or containers.

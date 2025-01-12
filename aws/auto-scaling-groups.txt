@@ -1,0 +1,83 @@
+Auto Scaling Group (ASG) in AWS Overview:
+
+An Auto Scaling Group (ASG) in AWS is a service that automatically adjusts the number of EC2 instances in response to changes in load.
+It helps ensure that you have the right number of instances to handle your application’s traffic, while optimizing costs by scaling down
+when fewer instances are needed.
+
+---
+
+1. ASG Configuration (High Level Overview):
+
+When you configure an ASG, you define several key parameters to ensure your application scales appropriately and performs well under varying conditions.
+
+Key components of ASG configuration include:
+
+- Launch Configuration/Template:
+   - This defines the configuration for the EC2 instances that the ASG will launch. It includes instance types, AMIs (Amazon Machine Images), storage, security groups, and network settings.
+   - Launch Templates are a more flexible and scalable option compared to Launch Configurations and allow for versioning and modification.
+
+- Desired Capacity:
+   - The desired number of instances you want the ASG to maintain under normal circumstances.
+   - Example: If your desired capacity is 3 instances, the ASG will ensure that there are 3 running instances unless scaling actions are triggered by metrics.
+
+- Minimum and Maximum Capacity:
+   - The minimum number of instances that should always be running (even during low load) and the maximum that the ASG should scale up to.
+   - Example: A minimum of 2 instances and a maximum of 10 instances. This prevents over-scaling and unnecessary costs.
+
+- VPC and Subnets:
+   - You configure the ASG to launch EC2 instances in one or more subnets within a VPC (Virtual Private Cloud), ensuring the instances are placed in the right network environment.
+   - You can also enable the instances to be spread across multiple Availability Zones to improve fault tolerance.
+
+- Health Checks:
+   - ASG uses EC2 instance status checks and optionally Elastic Load Balancer (ELB) health checks to determine whether an instance is healthy.
+   - If an instance is deemed unhealthy, it will be replaced automatically.
+
+- Scaling Triggers:
+   - These are the conditions that trigger scaling actions. CloudWatch metrics like CPU utilization, memory usage, and request count often act as triggers.
+   - ASG will either scale out (add instances) or scale in (remove instances) based on these triggers and scaling policies.
+
+---
+
+2. Scaling Policies in ASG:
+AWS ASG offers different scaling policies to automatically scale the number of instances based on the load. These policies define the conditions under which the scaling action should be triggered. The main types of scaling policies are:
+
+  - Target Tracking Policy:
+    This is the most commonly used scaling policy.
+    It automatically adjusts the number of instances to maintain a specific metric, such as CPU utilization or request count.
+    Example: If the average CPU utilization exceeds 75%, the policy might scale out by adding instances. If it drops below 25%,
+    it might scale in by removing instances.
+    It works like a thermostat, aiming to maintain the target metric within a defined range.
+
+  - Step Scaling Policy:
+    In this policy, scaling actions are based on predefined thresholds.
+    When a metric (like CPU utilization) crosses a threshold, the scaling action is triggered.
+    Example: If CPU utilization exceeds 80% for 5 minutes, scale out by 2 instances; if it exceeds 90%, scale out by 4 instances.
+    This provides more control over scaling, as you can define multiple steps with different scaling actions based on different levels of load.
+
+  - Simple Scaling Policy:
+    Simple scaling allows you to trigger scaling actions based on a single threshold value for a given metric.
+    Once the metric crosses a threshold (e.g., CPU utilization over 80%), the ASG takes a single scaling action (like adding or removing instances).
+    After the scaling action, the cooldown period is applied before considering any new scaling.
+
+  - Scheduled Scaling Policy:
+    This allows you to schedule scaling actions at specific times, rather than relying on metrics or thresholds.
+    Example: You could schedule your ASG to scale out during business hours (e.g., at 8 AM) and scale in during off-peak hours (e.g., at 6 PM).
+
+---
+
+3. Summary:
+- Cooldown: Time period after a scaling action to prevent rapid, successive scaling actions.
+- Scaling Policies:
+  - Target Tracking: Automatically maintains a specific metric (e.g., CPU utilization) within a target range.
+  - Step Scaling: Scales based on multiple thresholds for more granular control.
+  - Simple Scaling: Scales based on a single threshold and waits for cooldown.
+  - Scheduled Scaling: Scales at specific times, independent of metrics.
+
+
+- ASG Configuration:
+  - Launch Template/Configuration: Specifies the EC2 instance setup.
+  - Desired Capacity: Defines the target number of instances.
+  - Minimum and Maximum Capacity: Control scaling limits.
+  - VPC and Subnets: Configure networking and fault tolerance.
+  - Health Checks: Monitors instance health and triggers replacement if needed.
+  - Scaling Triggers: CloudWatch metrics that trigger scaling actions.

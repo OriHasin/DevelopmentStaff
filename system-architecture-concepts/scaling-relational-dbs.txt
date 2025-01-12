@@ -1,0 +1,48 @@
+
+
+1. Traditional SQL Databases & Vertical Scaling
+------------------------------------------------
+    • Origin & Core: Early relational databases (PostgreSQL, MySQL, SQL Server, Oracle) were architected for single-node setups, emphasizing ACID guarantees and strong consistency on a single physical machine.
+    • Vertical Scaling: They typically scale by adding more CPU, RAM, or faster disks to one node, which works well until hardware limits are reached.
+    • Limited Native Horizontal Scaling: Clustering and sharding are not inherently “turnkey” in most traditional RDBMS—master-slave replication is often used for read scaling, while master-master introduces complexity (conflict resolution, locking overhead).
+
+
+2. Why SQL Isn’t Natively Distributed
+--------------------------------------
+    • ACID in Distributed Context: Ensuring strict consistency across nodes typically requires complex protocols (e.g., 2PC, Paxos, Raft), which increase latency and operational overhead.
+    • Joins & Constraints: SQL’s powerful joins and referential integrity checks become challenging when data is split across multiple shards or nodes.
+    • Conflict Resolution: In multi-primary (master-master) setups, concurrent writes to the same data on different nodes can cause conflicts that legacy RDBMS engines aren’t designed to automatically handle.
+
+
+3. NewSQL: Distributed + ACID
+------------------------------
+    • What is NewSQL? A new class of databases (e.g., CockroachDB, YugabyteDB) built from the ground up to provide SQL + ACID transactions in a distributed architecture.
+    • Goals & Trade-offs:
+      – Horizontal Scale: Can add nodes to increase throughput for both reads and writes.
+      – Strong Consistency & Familiar SQL Model: Use consensus protocols to maintain an ordered log of transactions, ensuring a single logical view of data across nodes.
+      – Complexity & Latency: Distributed consensus adds overhead (extra network hops, leadership elections) compared to single-node systems.
+
+
+4. Scale-Out Strategies
+------------------------
+    • Master-Slave (Master-Standby):
+      – Single authoritative writer with multiple read replicas for high availability and read scaling.
+      – Simple to understand, but no real write scaling; “scale out” mainly benefits reads.
+    • Master-Master (Multi-Primary):
+      – Each node can accept writes, data is replicated among them.
+      – Potentially scales writes, but requires careful conflict handling. Operations and fault scenarios become more complex.
+    • Sharding (Horizontal Partitioning):
+      – Data is split across multiple nodes based on a shard key (e.g., user_id).
+      – Effective for very large data sets, but cross-shard queries and re-sharding can be complex.
+    • Distributed Consensus (Raft, Paxos):
+      – Ensures strong consistency (no “last write wins” approach).
+      – Increases network round trips and coordination, impacting latency.
+
+
+5. Key Takeaways for System Design
+-----------------------------------
+    • Traditional RDBMS Scale: Often sufficient for many OLTP workloads, especially if hardware resources are still within reach.
+    • Distributed RDBMS (NewSQL): Provide horizontal scalability and ACID but introduce higher complexity—best for large-scale or global systems requiring strong consistency.
+    • Trade-offs: Adding more nodes usually improves total throughput but may increase per-request latency due to replication, network overhead, and consensus protocols.
+    • Architecture Mindset: Choose the right model (master-slave, master-master, sharding, or a NewSQL solution) based on data size, write/read patterns, consistency requirements, and team expertise.
+

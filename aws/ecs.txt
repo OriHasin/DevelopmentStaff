@@ -1,0 +1,60 @@
+AWS ECS & Serverless Architecture - Simplified Overview
+
+1. AWS Elastic Container Service (ECS)
+- ECS is a service that helps manage containers (like Docker), handling their life cycle (creation, deletion, scaling, updates, etc.).
+- ECS is a container orchestrator, like Docker Swarm or Kubernetes, but specifically managed by AWS.
+- **Key Benefits**:
+  - **Multi-Server Management**: ECS spreads containers across multiple servers to avoid single points of failure.
+  - **Auto-Scaling**: Automatically scales containers based on traffic, saving manual intervention.
+  - **Efficient Updates**: Updates apps without downtime, ensuring continuous user experience.
+
+- **Launch Types**:
+  - **EC2 Launch Type**: You manage the underlying EC2 instances (requires more work).
+  - **Fargate Launch Type**: AWS manages the infrastructure for you in a serverless way (pay only for resources used).
+
+- **Core Components**:
+  - **Cluster**: the underlying infrastructure which ECS run the tasks / services on. it can be either EC2 instances or VM-like Fargate environment.
+  - **Task Definition**: A blueprint for container specs (CPU, memory, ports, etc.), can contains several "container images" inside that spec.
+  - **Task**: An instance of a task definition (e.g., one running copy of an app).
+  - **Service**: Ensures the desired number of tasks are running and restarts tasks if needed.
+  - **Load Balancer**: Routes traffic to ECS services, distributing it evenly across containers.
+
+2. Serverless Architecture in AWS
+- Serverless means you don't manage servers; AWS does all the infrastructure work.
+- **Core AWS Components**:
+  - **Compute**: AWS Lambda (runs functions based on events).
+  - **Storage**: Amazon S3, DynamoDB (store data).
+  - **API Management**: API Gateway (handles HTTP requests).
+  - **Messaging**: SQS, SNS (message queues for decoupled services).
+
+- **Key Benefits**:
+  - **Cost Efficiency**: You pay only for execution time, not idle resources.
+  - **Scalability**: Automatically scales with demand.
+  - **Fast Development**: Focus on code, not infrastructure.
+
+
+3. Fargate vs EC2 for ECS
+- **Fargate**:
+  - Serverless: AWS manages the infrastructure.
+  - Ideal for bursty, unpredictable workloads.
+  - You pay based on the vCPU and memory usage.
+
+- **EC2**:
+  - You manage EC2 instances and install Docker.
+  - Best for long-running, predictable workloads, cheaper due to management of infrastructure (Spot, RI).
+  - Offers full control over infrastructure but requires manual scaling.
+
+- **Scaling**:
+  - **ECS on EC2**: Scaling of EC2 and ECS are separate operations. EC2 using ASG and ECS based on its internal Auto Scaling.
+   take into account that while scaling in (down) tasks, the ec2 instances will also be scaled-in but remain operates (minimum capacity).
+  - **ECS on Fargate**: AWS handles scaling automatically, no manual intervention needed.
+
+- **Payment**:
+  - **EC2**: Pays for instance uptime.
+  - **Fargate**: Pays for resources used by containers (vCPU, memory).
+
+4. Practical Considerations
+- **Use Reserved Instances or Savings Plans** for EC2 for discounts on long-term workloads.
+- **Task Definitions**: Group tightly-coupled containers in the same task definition for efficiency (e.g., an app and a logging sidecar).
+- **Networking**: All tasks run in the same VPC by default, and containers in the same subnet can communicate via private IPs. Service Discovery allows containers to find each other using DNS.
+- **Load Balancers**: Handle external communication to ECS services.

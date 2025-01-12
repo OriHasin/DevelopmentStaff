@@ -85,19 +85,26 @@ This allows other tasks to execute without preemption.
 
 
 
-Key Differences in Event Loop Internals
---------------------------------------
-- **Asynchronous Operation Management**:
-  - **JavaScript**: Relies on external Web APIs (or C++ APIs in Node.js) to handle asynchronous operations, such as I/O or timers,
-  and places corresponding callbacks in the task queue when these operations are completed.
 
-  - **Python**: Uses the asyncio library, which provides a task scheduler to manage coroutines, transitioning them between the call stack,
-  task queue, and other internal states. The scheduler ensures the correct order of execution based on coroutine readiness.
+JavaScript's Async Execution and Web APIs
+----------------------------------------------
+In JavaScript, async functions rely on the event loop and Web APIs (in browsers) or similar mechanisms (in Node.js) to handle asynchronous operations.
 
+When an async function encounters an await, the following happens:
 
-- **Pausing Execution**:
-  - **JavaScript**: The `await` keyword pauses the execution of the async function, but the event loop continues executing other code.
-  The asynchronous operation is delegated to Web APIs (in the browser) or Node.js APIs (in Node.js), which do not block the main flow.
-  
-  - **Python**: The `await` keyword pauses the coroutine's execution and yields control back to the event loop.
-  The coroutine’s execution is suspended until the awaited operation completes, but other tasks (coroutines or callbacks) can run in the meantime.
+1. The async operation (like setTimeout, fetch, etc.) is delegated to the Web API.
+2. The function itself doesn't block the main thread. The synchronous part of the function runs entirely before it "pauses" at the await.
+3. The async operation runs in the background (handled by Web APIs).
+4. Once the operation completes, the function's continuation (from after the await) is scheduled back on the event loop as a microtask.
+5. Since JavaScript async functions rely on external systems (Web APIs or Node.js equivalents), the function doesn't remain in the call stack after it hits await. It gets removed and will resume later when the promise resolves.
+
+Python's Async Execution
+-----------------------------------------------
+In Python, asynchronous programming with asyncio is different because there are no Web APIs. Everything is handled by Python's event loop internally.
+
+When an await is encountered in Python:
+
+1. The coroutine is suspended at the await.
+2. The control is handed back to the event loop, allowing it to execute other coroutines or tasks.
+3. The suspended coroutine is stored in memory (not on the call stack) and will resume when the awaited operation is complete.
+4. Unlike JavaScript, Python removes the coroutine from the call stack when it suspends. This is because Python's event loop directly manages async execution, whereas JavaScript offloads the async operation to Web APIs.

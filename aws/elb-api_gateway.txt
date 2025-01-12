@@ -1,0 +1,77 @@
+AWS API Gateway, ALB, and NLB - Key Takeaways
+
+This document simplifies and highlights the essential differences and use cases of AWS API Gateway,
+Application Load Balancer (ALB), and Network Load Balancer (NLB) for backend engineers.
+
+---
+
+1. **API Gateway**:
+   - **Purpose**: Central API entry point for serverless and API-heavy architectures.
+   - **Features**:
+     - Fine-grained API control: Rate limiting, caching, and request transformation.
+     - Built-in authentication: IAM, Cognito, or custom Lambda authorizers.
+     - SSL/TLS termination by default.
+   - **When to Use**:
+     - For public-facing APIs with serverless backends (e.g., Lambda).
+     - Multi-region APIs with Route 53 for global latency optimization.
+   - **Limitation**:
+     - Stateless: Does not manage sessions or cookies.
+
+2. **Application Load Balancer (ALB)**:
+   - **Purpose**: Layer 7 load balancer for HTTP/HTTPS traffic, optimized for web apps and microservices.
+   - **Features**:
+     - Content-based routing: Path, hostnames, headers.
+     - Centralized SSL termination and health checks.
+     - Supports ECS tasks, EKS pods, Lambda functions.
+   - **When to Use**:
+     - For web apps or microservices without API-specific needs like rate limiting.
+     - Cost-effective for high-throughput traffic compared to API Gateway.
+
+3. **Network Load Balancer (NLB)**:
+   - **Purpose**: Layer 4 load balancer for TCP/UDP protocols with low latency.
+   - **Features**:
+     - TLS passthrough and static IP addresses.
+     - High-performance routing for non-HTTP protocols (e.g., gRPC, MQTT).
+   - **When to Use**:
+     - For high-performance, low-latency applications.
+     - Applications requiring static IPs or support for non-HTTP protocols.
+
+---
+
+4. **Comparison**:
+   - **API Gateway**: Best for APIs with advanced features like rate limiting and authentication.
+   - **ALB**: Best for web apps and microservices requiring cost-efficient routing.
+   - **NLB**: Best for high-performance, low-latency, or non-HTTP workloads.
+
+---
+
+5. **Load Balancing Algorithms (ALB)**:
+   - **Round Robin**:
+     - Distributes requests evenly across healthy targets.
+     - Simple and effective for uniform workloads.
+   - **Least Outstanding Requests**:
+     - Routes requests to the target with the fewest active connections.
+     - Ideal for variable workloads and high concurrency.
+
+---
+
+6. **ECS and EKS Integration**:
+   - **ECS**:
+     - ALB must be explicitly configured; each service (wrapping tasks) is individual target group.
+   - **EKS**:
+     - Requires an Ingress Controller or LoadBalancer Service for external access.
+
+---
+
+7. **Key Takeaways Without a Load Balancer**:
+   - Traffic must be distributed by the client using private IPs or service discovery.
+   - Manual routing introduces scaling challenges and lacks automated health checks.
+
+---
+
+**Conclusion**:
+API Gateway, ALB, and NLB excel in different scenarios:
+- Use **API Gateway** for fine-grained API management and serverless applications.
+- Use **ALB** for web applications and microservices with HTTP/HTTPS traffic.
+- Use **NLB** for high-performance, low-latency, or non-HTTP protocols.
+

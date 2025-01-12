@@ -1,0 +1,32 @@
+Amazon Aurora Summary for Senior Backend Engineers:
+
+Aurora is a fully managed relational database engine built for high availability, scalability, and performance. It is compatible with MySQL and PostgreSQL, offering improved speed and reliability compared to standard relational databases.
+
+Key Concepts:
+
+1. **Scalability**:
+   - Aurora scales both **storage** and **compute** independently. It automatically grows storage in 10GB increments, up to 128TB, without manual intervention.
+   - Aurora supports **up to 15 read replicas** for scaling read traffic. These replicas are kept in sync with the primary instance, offloading read queries and improving the overall system performance.
+   - In the **Aurora Serverless** model, **auto-scaling** of compute resources is available. This model automatically adjusts compute capacity based on workload demands, scaling up or down to handle varying traffic. This is ideal for applications with **fluctuating workloads**.
+   - **Provisioned Aurora** provides a fixed instance size for consistent performance, suitable for workloads requiring predictable and steady compute and storage resources.
+
+2. **Storage**:
+   - Aurora uses a **distributed shared storage system** spread across **multiple Availability Zones (AZs)**. The storage layer is replicated six ways (two copies in each of three AZs) to provide high durability and fault tolerance.
+   - The storage is decoupled from the compute layer, allowing for elastic scaling and reducing the burden on the compute resources.
+
+3. **Replication**:
+   - Aurora uses **synchronous replication** to ensure consistency across multiple AZs. Data is replicated across **three AZs** in the region, with **six copies** of the data, making it highly resilient to failure.
+   - **Read replicas** are kept in sync with the primary instance, and can be promoted to primary in case of failure.
+
+4. **Redundancy and Failover**:
+   - **Automatic failover** is supported, meaning if the primary instance fails, a **read replica** can be promoted to primary with minimal downtime.
+   - Aurora ensures high availability and fault tolerance by spreading data across multiple AZs and leveraging the automatic failover feature.
+
+5. **Underlying Infrastructure**:
+   - Aurora operates on a **custom-built storage architecture** that’s separate from traditional RDS or EC2-based systems. It combines high availability, fault tolerance, and a distributed storage system designed specifically for relational databases.
+   - Aurora provides both **provisioned** and **serverless** deployment models:
+     - **Provisioned Aurora**: Provides a fixed instance size and resources for consistent performance, suitable for workloads that require predictable and steady compute and storage.
+     - **Aurora Serverless**: Automatically adjusts compute capacity based on workload demands, scaling up or down to handle varying traffic. This model is ideal for **variable workloads** or applications with infrequent traffic.
+   - Aurora automatically handles **patching**, **backups**, and **monitoring**, reducing the operational overhead.
+
+Aurora is ideal for high-performance applications that require **scalability**, **fault tolerance**, and **high availability**, especially for large-scale database workloads.

@@ -1,0 +1,34 @@
+Amazon RDS Summary for Senior Backend Engineers:
+
+Amazon RDS (Relational Database Service) is a fully managed database service that simplifies setup, operation, and scaling of relational databases in the cloud. It supports various engines, including MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
+
+Key Concepts:
+
+1. **Underlying Infrastructure**:
+   - RDS runs on **EC2 instances** abstracted away from users, simplifying database management.
+   - RDS handles **backup**, **patching**, **monitoring**, and **scaling** automatically, allowing developers to focus on application logic.
+
+2. **Multi-AZ Deployment**:
+   - **Multi-AZ** provides **high availability** with **synchronous replication** between the **primary** and **standby** instance in different Availability Zones (AZs).
+   - In case of a failure, **automatic failover** occurs, promoting the standby instance to primary with minimal downtime.
+   - The primary instance handles **write operations**, while the standby is used for failover and is kept in sync with the primary (not serve read queries at all).
+
+3. **Multi-AZ Cluster Deployment**:
+   - A **Multi-AZ cluster** in RDS is a **multi-instance** setup, including the **primary instance** and 2 **read replicas** spread across multiple AZs.
+   - **Read scalability** is achieved by adding 2 **read replicas**, which handle **read traffic**. These replicas are **semi-synchronous** from the primary instance, means only 1 instance is in synchronous replication while the other is aync.
+   - **Failover** in a **Multi-AZ cluster** works similarly to Multi-AZ deployment, with automatic promotion of a replica to primary if the current primary fails.
+
+4. **Redundancy**:
+   - **Multi-AZ** ensures **data redundancy** with **synchronous replication** to a standby in another AZ. This provides high availability and durability.
+   - **Read replicas** offer additional redundancy but do not automatically provide failover (in contrast to other DBs); manual promotion is required in case of primary failure.
+
+5. **Scalability**:
+   - RDS allows for both **vertical scaling** (changing instance types) and **horizontal scaling** through **read replicas**.
+   - Storage scaling is **automatic** for **General Purpose SSD** and **Provisioned IOPS SSD**. You can also manually increase storage if needed.
+
+6. **Storage**:
+   - RDS uses **EBS** (Elastic Block Store) for persistent storage, with options for **General Purpose SSD** and **Provisioned IOPS SSD**.
+   - Storage automatically scales for supported storage types, and manual scaling is available for capacity changes.
+
+RDS is suitable for applications requiring **managed relational databases**, **high availability**, and **read scalability**.
+It supports a variety of deployment options, including **Multi-AZ** for high availability and **read replicas** for scaling.

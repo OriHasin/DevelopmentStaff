@@ -1,0 +1,56 @@
+MongoDB: Isolation Levels, Concurrency Management, and Locks
+
+MongoDB is designed to handle high-throughput, scalable applications while ensuring data consistency. Here's a comprehensive overview of its isolation levels, concurrency control mechanisms, and locking behavior.
+
+1. Isolation Levels in MongoDB
+--------------------------------
+- **Default Isolation Level**: MongoDB provides "read committed" isolation, ensuring that clients only see committed data.
+  - Readers do not block writers, and writers do not block readers.
+  - Reads within a single operation are consistent, but multi-document operations may read intermediate states unless transactions are used.
+
+- **Multi-Document Transactions**:
+  - MongoDB supports **snapshot isolation** for transactions, ensuring reads see a consistent view of data as of the transaction's start.
+  - Transactions are limited to a single replica set or shard unless explicitly configured.
+
+- **Read Concerns**:
+  - `local`: Reads the most recent data, even if it is not replicated.
+  - `majority`: Reads only data that has been acknowledged by the majority of replicas, ensuring durability.
+  - `snapshot`: Used in transactions, provides a consistent view of the database.
+
+- **Write Concerns**:
+  - `w: 1`: Acknowledgment from the primary only.
+  - `w: majority`: Acknowledgment from the majority of replicas ensures durability.
+  - `w: 0`: No acknowledgment, prioritizing performance over durability.
+
+2. Concurrency Management in MongoDB
+--------------------------------------
+- **Optimistic Concurrency**:
+  - MongoDB minimizes locks by using document-level locking and optimistic concurrency control (OCC).
+  - OCC assumes that conflicts are rare and resolves them at the time of write. Applications can use version fields or conditional updates to enforce consistency.
+
+- **Snapshot Isolation**:
+  - MongoDB uses snapshot isolation to ensure a consistent view of data for transactions.
+  - Readers access snapshots of the data without blocking writers.
+
+- **Atomic Operations**:
+  - Operations on a single document (e.g., inserts, updates) are atomic.
+  - Complex, multi-document transactions ensure ACID compliance where required.
+
+3. Locking in MongoDB
+-----------------------
+- **Granularity**:
+  - MongoDB uses **document-level locking**, which allows concurrent operations on different documents within the same collection.
+  - This minimizes contention and improves throughput compared to coarse-grained locking mechanisms like table-level locks.
+
+- **Types of Locks**:
+  - **Intent Locks**: Used to signal the intention to read or write a resource - IS for reads, IX for writes - can acquired together.
+  - **Locks**: S locks and X locks. for read and writes, S locks can be acquired together. X locks cant. X locks can also lock the collection
+
+    MongoDB uses Shared (S) locks for read operations and Exclusive (X) locks for write operations.
+    S locks allow multiple processes to read the same resource concurrently without conflicts, ensuring data consistency during reads.
+    X locks prevent all other operations (read or write) on the locked resource and are typically applied at the document level for write operations.
+    For certain administrative tasks or schema changes (e.g., creating or dropping an index), MongoDB applies X locks at the collection-level.
+
+
+- **Minimal Locking for Reads**:
+  - MongoDB provides non-blocking reads using snapshot isolation, allowing high concurrency for read-heavy workloads.

@@ -1,0 +1,80 @@
+Briefing Document: Amazon S3 - Core Concepts and Use Cases
+
+Introduction:
+This document provides a comprehensive overview of Amazon Simple Storage Service (S3), drawing upon the provided sources.
+S3 is a foundational AWS service offering highly scalable, durable, and cost-effective object storage. \
+This briefing will cover its core concepts, functionality, common use cases, and comparisons to other storage solutions.
+
+
+Key Themes & Core Concepts:
+
+What is Amazon S3?
+S3 stands for Simple Storage Service. It was the first service launched by AWS in 2006.
+It's a cloud-based service designed for general object storage, meaning it can store any type of file.
+It's often compared to services like Google Drive or Dropbox, but is more tailored towards object storage for software applications.
+It's described as a "kitchen sink for dumping file content" because it's very versatile, and it is "very, very affordable in terms of pricing".
+
+Core Components:
+Buckets:
+- Buckets are containers for storing objects (files).
+- Bucket names must be globally unique across AWS.
+- Think of buckets as the top-level folders of a file system.
+- You can organise data within a bucket using prefixes, which act as folders.
+
+Objects:
+- Objects are the files stored within buckets.
+- Objects can be a wide variety of file types (media, JSON, CSV, code, etc).
+- Objects have a maximum size of 5 terabytes.
+- Each object consists of the data itself, metadata (file type, size), and a unique identifier (object key).
+
+Keys:
+- A key is a unique identifier for an object within a bucket. For example: my-folder/my-image.jpg.
+- Keys are used to access objects in a bucket.
+
+Metadata:
+- Metadata provides information about the object.
+- Metadata can include file type, size, and user defined key-value pairs.
+
+Accessing S3 Content:
+- URLs: Objects can be accessed through URLs, if the bucket is publicly accessible (not recommended for sensitive data). The basic format is: https://s3.amazonaws.com/bucket-name/object-name.
+- Programmatically: Access is often done programmatically using AWS SDKs, such as boto3 for Python.
+- AWS Console: S3 content is accessible via the AWS Management Console, showing buckets, their content, and metadata.
+
+S3 Storage Classes:
+- Standard: The default storage class with "excellent availability, very low latency". Best for frequently accessed data.
+- Intelligent Tiering: Automatically moves data between tiers based on access patterns.
+- Infrequent Access: For older data that is not accessed very frequently but needs some degree of availability and latency guarantees.
+- Glacier & Deep Glacier: For cold, archival data with infrequent access. Data retrieval can range from minutes to hours.
+
+Versioning, Lifecycle Policies, and Event Notifications:
+- Versioning: Keeps multiple versions of the same object. Helpful for recovery from accidental changes.
+- Lifecycle Policies: Automate the transition of objects between different storage classes based on their age.
+- Event Notifications: Trigger actions (Lambda functions, SNS) based on events (e.g., object creation or deletion).
+
+
+S3 is More than Storage:
+S3 integrates with other AWS Services to build complex architectures, such as data ingestion pipelines, data analytics and dashboards, and event-driven architectures.
+
+Use Cases:
+- Data Storage: General purpose storage for unstructured data.
+- Backups: Highly suitable for storing backups due to durability.
+- Big Data: Storage for datasets used by services like EMR and Lambda.
+- Media Hosting: Serve media files (images, videos) for websites and applications.
+- Data Archival: Archiving data in lower-cost storage classes.
+- Static Website Hosting: Host static content (HTML, CSS, JavaScript).
+- Disaster Recovery: Provides a durable and available location for disaster recovery data.
+
+S3 in context: Comparisons with other storage solutions:
+
+S3 vs. Databases:
+- S3: Suited for unstructured data, direct file access, static content delivery. More cost-effective for large binary files.
+- Databases: Suited for structured data requiring complex queries and transactions.
+
+S3 vs. EFS (Elastic File System):
+- S3: Object storage, eventual consistency, higher latency.
+- EFS: File storage, strong consistency, lower latency, ideal for shared file systems across EC2 instances.
+
+Pricing:
+- Pricing is determined by the storage class, the amount of data stored, the frequency of access, and data transfer (egress).
+- There is a free tier available for new accounts, which includes a limited amount of standard tier data, put requests, and get requests.
+- Transferring data out of S3 over the public internet can be a significant cost factor.

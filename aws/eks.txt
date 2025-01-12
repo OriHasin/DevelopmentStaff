@@ -1,0 +1,62 @@
+AWS EKS Deep Dive
+
+Introduction:
+This document summarizes key concepts and functionalities related to Amazon Elastic Kubernetes Service (EKS), focusing on its architecture, scaling options, security considerations, and cost management.
+
+1. What is AWS EKS?
+- Managed Kubernetes Service: EKS is a managed Kubernetes service offered by AWS. AWS handles the complexity of managing the Kubernetes control plane (e.g., API server, scheduler, controller manager, etcd) and ensures security best practices are implemented.
+- Customer Responsibility: Customers are responsible for managing worker nodes. Options include self-managed nodes, managed node groups (MNG), and AWS Fargate.
+
+2. Kubernetes Core Concepts:
+- Container Orchestration Platform: Kubernetes manages the deployment, scaling, and operation of containerized applications.
+- Master Node (Control Plane): Manages worker nodes, schedules pods, and handles API requests.
+- Worker Nodes: Run application containers within Pods.
+- Pods: The smallest deployable unit in Kubernetes, typically running one or more containers.
+- Namespaces: Provide logical isolation for resources.
+
+3. EKS Infrastructure Options:
+- EC2 Instances: Customizable instance type, AMI, and managed via Auto Scaling Groups (ASG).
+- AWS Fargate: Serverless compute option where no node management is required. Each pod runs in isolation.
+
+4. Worker Node Options:
+- Self-Managed Nodes: Customers are responsible for provisioning, configuring, updating, and patching EC2 instances, as well as managing kubelet, kube-proxy, and the container runtime.
+- Managed Node Groups (MNG): AWS automates the provisioning and lifecycle management of EC2 worker nodes using a special EKS-optimized image. Nodes are part of an Auto Scaling Group (ASG) managed by EKS.
+- AWS Fargate: Serverless compute option where customers don't manage EC2 instances. Fargate automatically provisions worker nodes based on the container workload.
+
+5. Cluster Creation with eksctl:
+- eksctl simplifies EKS cluster creation and management, often reducing the process to a single command. It handles VPC creation, subnet configurations, control plane setup, and worker node provisioning.
+
+6. EKS Networking Concepts:
+- VPC Integration: EKS clusters run inside a VPC with public and private subnets for various services.
+- CNI (Container Network Interface): Provides pod-to-pod communication, with AWS providing the Amazon VPC CNI plugin.
+- Service Types: ClusterIP, NodePort, LoadBalancer, and Ingress for external access.
+- DNS: CoreDNS for Kubernetes-native DNS, AWS Route 53 for external domain resolution.
+
+7. Scaling Options:
+- Horizontal Scaling: Pods can be scaled using Horizontal Pod Autoscaler (HPA), and nodes can be scaled using Cluster Autoscaler (CAS).
+- Vertical Scaling: Adjusting resource allocation to pods or nodes.
+
+8. Deployment Strategies:
+- Rolling Updates: Replace pods without downtime.
+- Blue/Green Deployments: Deploy a new version alongside the old and switch traffic after validation.
+- Canary Deployments: Route a small percentage of traffic to the new version.
+
+9. EKS Cost Management:
+- Control Plane: Flat hourly rate.
+- Worker Nodes: EC2: Pay for instance usage; Fargate: Pay per pod CPU/memory usage.
+
+10. Karpenter vs. Cluster Autoscaler:
+- Cluster Autoscaler (CA): Scales nodes by interacting with EC2 Auto Scaling Groups (ASGs), monitors pending pods, and requests new EC2 instances when resources are insufficient.
+- Karpenter: Open-source compute provisioning solution that dynamically manages nodes, optimizing costs by selecting more appropriate instance types. It supports mixed-instance types, spot instances, and burst scaling.
+
+11. Combining Fargate and EC2 in the same cluster:
+- Mixed Workloads: It's common to run a mix of Fargate (stateless) and EC2 (stateful) services within the same EKS cluster. Fargate profiles determine which pods run on Fargate.
+
+12. Managed Node Groups (MNG):
+- Logical organization of EC2 instances managed by AWS, automating provisioning and lifecycle management.
+- MNG vs. Auto Scaling Group (ASG): MNG is Kubernetes-specific, AWS-managed, and integrated with EKS, while ASG is a generic AWS feature that requires manual configuration.
+- Number of MNGs: Depends on workload, availability zone distribution, scaling needs, and AMI/OS preferences.
+- MNG Scaling and Limitations: MNG stops scaling when it reaches its maximum node capacity. To scale further, increase MNG's maximum size or add another MNG.
+
+Conclusion:
+AWS EKS offers a robust and scalable platform for running containerized applications. Understanding its core components, scaling mechanisms, and best practices is crucial for efficiently managing Kubernetes workloads on AWS. Key differentiators include flexible node management options (self-managed, managed node groups, Fargate), robust scaling tools (Cluster Autoscaler, Karpenter), and security features.

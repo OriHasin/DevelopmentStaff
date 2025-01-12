@@ -1,0 +1,56 @@
+WS Lambda: Core Concepts for Senior Backend Engineers
+
+1. Introduction
+AWS Lambda is a serverless compute service that allows developers to run code in response to events without provisioning or managing infrastructure. It abstracts server management, scaling, and maintenance, enabling developers to focus on application logic. Lambda’s event-driven architecture supports integration with various AWS services and external sources, providing a flexible and highly scalable solution for modern applications.
+
+2. Core Lambda Concepts and Components
+- Lambda Function: A Lambda function comprises the code written in supported languages (Python, Node.js, Java, Go, .NET, etc.) and the runtime environment managed by AWS.
+  - Code: Contains business logic, packaged and uploaded to AWS.
+  - Handler: The entry point for Lambda execution, e.g., def lambda_handler(event, context): in Python.
+- Trigger: Defines the event source that invokes the function. Common triggers include API Gateway (HTTP requests), S3 (file uploads), DynamoDB (database changes), and CloudWatch Events (scheduled jobs).
+- Event: A JSON object that encapsulates details about the triggering source. The Lambda function processes this object to perform its logic.
+
+3. Lambda Execution Environment
+- Execution Role: Each Lambda function requires an IAM role with permissions to interact with AWS resources securely.
+- Environment Variables: Configuration values like database connection strings and API keys are passed to functions as environment variables, enabling flexibility across environments.
+- Ephemeral Storage: Lambda provides /tmp directory for temporary storage, available during the function's lifetime.
+
+4. Lambda Scaling and Concurrency
+- Automatic Scaling: Lambda automatically scales to match the incoming request rate by creating new instances of the function as needed.
+- Concurrency: Lambda supports parallel invocations. The default concurrency limit is 1000 per account, which can be adjusted.
+  - Reserved Concurrency: Guarantees a fixed number of concurrent executions for a specific function.
+  - Provisioned Concurrency: Pre-warms containers to avoid cold starts, ensuring low latency.
+- Cold Start: Occurs when a function is invoked for the first time or after a period of inactivity, leading to initialization delay.
+- Warm Start: Subsequent invocations reuse an already initialized environment for faster execution.
+
+5. Payment Model
+- Pay-as-You-Go: Costs are based on the number of requests and execution duration.
+  - Requests: Charged per invocation.
+  - Execution Duration: Measured in milliseconds, based on allocated memory.
+
+6. Monitoring and Logging
+- CloudWatch Logs: Lambda automatically sends logs to CloudWatch, useful for debugging and monitoring.
+- CloudWatch Metrics: Provides metrics like invocation count, error rates, and execution duration.
+- Dead Letter Queue (DLQ): Captures events that fail to be processed, aiding in debugging.
+
+7. Best Practices
+- Optimize Cold Starts: Minimize function and dependency size; consider provisioned concurrency for critical functions.
+- Memory Allocation: Allocate sufficient memory to balance cost and performance.
+- Error Handling: Implement structured logging and retries for fault tolerance.
+- Use Layers: Share common dependencies across functions using AWS Lambda Layers.
+- Versioning and Aliases: Manage updates using function versions and aliases to enable rollbacks.
+
+8. Advanced Concepts
+- VPC Integration: Lambda can securely access VPC resources like RDS databases.
+- Destinations: Route function outcomes to other AWS services such as SQS, SNS, or EventBridge.
+
+9. Security
+- IAM Permissions: Follow the principle of least privilege by granting only necessary permissions.
+- Encryption: Utilize AWS KMS for encrypting data at rest and in transit.
+
+10. Example Use Cases
+- File Processing: Resize images or process videos upon S3 uploads.
+- Stream Processing: Analyze real-time data from sources like Kinesis or DynamoDB streams.
+- Web Applications: Handle API requests and backend logic for web services.
+
+AWS Lambda's ability to scale dynamically, integrate with a wide range of AWS services, and minimize operational overhead makes it a powerful tool for building modern, scalable applications.
