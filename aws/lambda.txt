@@ -1,7 +1,9 @@
 WS Lambda: Core Concepts for Senior Backend Engineers
 
 1. Introduction
-AWS Lambda is a serverless compute service that allows developers to run code in response to events without provisioning or managing infrastructure. It abstracts server management, scaling, and maintenance, enabling developers to focus on application logic. Lambda’s event-driven architecture supports integration with various AWS services and external sources, providing a flexible and highly scalable solution for modern applications.
+AWS Lambda is a serverless compute service that allows developers to run code in response to events without provisioning or managing infrastructure.
+ It abstracts server management, scaling, and maintenance, enabling developers to focus on application logic.
+ Lambda’s event-driven architecture supports integration with various AWS services and external sources, providing a flexible and highly scalable solution for modern applications, each invocation can run up to 15 minutes.
 
 2. Core Lambda Concepts and Components
 - Lambda Function: A Lambda function comprises the code written in supported languages (Python, Node.js, Java, Go, .NET, etc.) and the runtime environment managed by AWS.
@@ -44,11 +46,7 @@ AWS Lambda is a serverless compute service that allows developers to run code in
 - VPC Integration: Lambda can securely access VPC resources like RDS databases.
 - Destinations: Route function outcomes to other AWS services such as SQS, SNS, or EventBridge.
 
-9. Security
-- IAM Permissions: Follow the principle of least privilege by granting only necessary permissions.
-- Encryption: Utilize AWS KMS for encrypting data at rest and in transit.
-
-10. Example Use Cases
+9. Example Use Cases
 - File Processing: Resize images or process videos upon S3 uploads.
 - Stream Processing: Analyze real-time data from sources like Kinesis or DynamoDB streams.
 - Web Applications: Handle API requests and backend logic for web services.

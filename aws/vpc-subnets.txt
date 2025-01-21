@@ -1,48 +1,48 @@
 Briefing Document: AWS VPC & Subnets
 
-This document summarises key concepts related to Amazon Web Services (AWS) Virtual Private Clouds (VPCs) and subnets, drawing from the provided video transcript and chatbot conversations. It aims to clarify core functionality, configurations and communication rules within the AWS networking environment.
+This document summarises key concepts related to Amazon Web Services (AWS) Virtual Private Clouds (VPCs) and subnets, drawing from the provided video transcript and chatbot conversations.
+ It aims to clarify core functionality, configurations and communication rules within the AWS networking environment.
 
 Key Themes & Concepts
 
     VPC as an Isolated Network:
         A VPC is described as "your own network in the cloud," a logically isolated section within the broader AWS cloud.
         It resides within a specific AWS region, spanning across multiple availability zones (AZs).
-        The purpose of a VPC is to provide isolation and control over your network resources. As the video explains, "vpc is our isolated network in region and vpc sp all availability zones".
-        Each AWS account needs to have at least one VPC. A default VPC is created with the account, "each new instance you launch needs to be attached to a network...that is also what your vpc deps".
+        The purpose of a VPC is to provide isolation and control over your network resources.
+        Each AWS account needs to have at least one VPC. A default VPC is created with the account.
         Multiple VPCs can exist within a single AWS account, allowing for further segmentation and organisation of resources.
 
     Subnets Within a VPC:
-        Subnets are subdivisions within a VPC, "subnetworks inside vpc".
+        Subnets are subdivisions within a VPC.
         Each subnet is associated with a single availability zone.
         Subnets can contain various resources such as EC2 instances and RDS databases.
-        Each subnet takes a subset of the VPC's IP address range. The video explains, "each subnet takes a subset of vpc ip range".
+        Each subnet takes a subset of the VPC's IP address range.
         Subnets can be classified as public or private based on whether they allow direct internet access.
 
     IP Addressing & CIDR Blocks:
         VPCs and subnets use IP addresses to communicate. Instances within a VPC typically have both private and public IPs.
-        Private IPs are used for communication within the VPC. The video notes, "your instances actually receive both they receive an internal ip with which can be reached from inside your network and public ip with which you can reach from outs of the network".
+        Private IPs are used for communication within the VPC.
         Public IPs enable communication with the internet and are optional.
-        The video explained you can configure your own ip ranges using CIDR blocks.
         The CIDR notation (e.g. 10.0.1.0/24) specifies the range of IP addresses within a subnet. For example, 10.0.1.0/24 has the range 10.0.1.0 to 10.0.1.255, providing 254 usable IP addresses.
         Different subnets within the same VPC have non-overlapping IP ranges (e.g. 10.0.1.0/24 and 10.0.2.0/24 are different subnets).
 
     Communication Between Instances:
-        Instances within the same VPC can communicate with each other, even if in different subnets and availability zones. This communication happens using private IP addresses. As ChatGPT noted, "Instances communicate using their private IP addresses within the VPC".
+        Instances within the same VPC can communicate with each other, even if in different subnets and availability zones. This communication happens using private IP addresses.
         Communication rules are governed by:
         Routing Tables: The subnets must have routes defined in the VPC's routing table. Default VPCs have a route for internal VPC traffic.
-        Security Groups (SGs): Security groups act as firewalls at the instance level. They define which inbound and outbound traffic is allowed. The video explained "security grps per instance level" and that they "act like a firewall".
-        Network Access Control Lists (NACLs): NACLs act as firewalls at the subnet level, controlling inbound and outbound traffic, "network access control lck sub".
+        Security Groups (SGs): Security groups act as firewalls at the instance level. They define which inbound and outbound traffic is allowed.
+        Network Access Control Lists (NACLs): NACLs act as firewalls at the subnet level, controlling inbound and outbound traffic.
         Within the same subnet, communication is direct and more efficient, while communication between different subnets utilizes the VPC routing table and may involve slightly higher latencies if they are in different AZ's.
         By default, NACLs allow all traffic, but security groups must be configured to permit desired communication.
 
     Public vs. Private Subnets:
-        Public subnets are designed for resources that need to connect to the internet (e.g. web servers). The video says, "public sub hold web servers which have to be accessible from the internet".
-        Private subnets host resources that should not be directly accessible from the internet, such as databases. The video added, "and the private one holds database servers be accessible from the internet only need be access from your web servers".
-        Instances in private subnets can still access the internet indirectly, for example, for software updates through NAT gateways. As the video says, "instances have no public access outs reach inter", they do this via a "nat gateway".
-        The internet gateway allows traffic to leave a VPC and go to the internet, "this gateway is important for all traffic leaving your your vpc".
+        Public subnets are designed for resources that need to connect to the internet (e.g. web servers).
+        Private subnets host resources that should not be directly accessible from the internet, such as databases.
+        Instances in private subnets can still access the internet indirectly, for example, for software updates through NAT gateways.
+        The internet gateway allows traffic to leave a VPC and go to the internet.
 
     Security:
         Security groups and NACLs both provide a way to control access to instances and subnets, respectively, providing multiple layers of defence.
         Routing tables allow further control of traffic flow through the network, including the direction of traffic.
         A key aim of these concepts is to provide "protecting some resources in your network against outside access".
-        Elastic IPs are static, public IPs attached to an account and associated with a gateway. As the video explained, "elastic i addresses are fixed addresses which belong to account".
+        Elastic IPs are static, public IPs attached to an account and associated with a gateway.

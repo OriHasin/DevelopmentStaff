@@ -6,7 +6,7 @@ Briefing Document: Database Selection and Architecture Considerations
   - **Model:** Structured tables with fixed schemas, rows, and columns.
   - **Strengths:** Strong ACID compliance, excellent for complex queries and joins, mature ecosystem.
   - **Use Cases:** Applications needing strict consistency (banking, e-commerce), complex analytical reporting.
-  - **Scalability:** Traditionally vertical, modern distributed SQL offers horizontal scaling - CP (CAP Theorem).
+  - **Scalability:** Traditionally vertical, modern distributed SQL offers horizontal scaling.
 
 - **Key-Value Stores:**
   - **Model:** Simple key-value pairs.
@@ -37,7 +37,8 @@ Briefing Document: Database Selection and Architecture Considerations
   - **Scalability:** Challenging but manageable with tools like AWS Neptune, typically CP in CAP theorem.
 
 2. Key Takeaways for Database Selection
-- Relational databases excel in structured, transactional use cases; NoSQL options provide flexibility and scalability for modern workloads - can choose to be AP or CP.
+- Relational databases excel in structured, transactional use cases;
+NoSQL options provide flexibility and scalability for modern workloads - can choose to be AP or CP.
 - Choose a database based on the nature of your data and access patterns:
   - **SQL:** Complex relationships, strict consistency.
   - **Key-Value:** Simple, ultra-fast lookups and caching.

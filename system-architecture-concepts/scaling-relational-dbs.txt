@@ -4,7 +4,7 @@
 ------------------------------------------------
     • Origin & Core: Early relational databases (PostgreSQL, MySQL, SQL Server, Oracle) were architected for single-node setups, emphasizing ACID guarantees and strong consistency on a single physical machine.
     • Vertical Scaling: They typically scale by adding more CPU, RAM, or faster disks to one node, which works well until hardware limits are reached.
-    • Limited Native Horizontal Scaling: Clustering and sharding are not inherently “turnkey” in most traditional RDBMS—master-slave replication is often used for read scaling, while master-master introduces complexity (conflict resolution, locking overhead).
+    • Limited Native Horizontal Scaling: Clustering and sharding are not inherently “turnkey” in most traditional RDBMS— master-slave replication is often used for read scaling, while master-master introduces complexity (conflict resolution, locking overhead).
 
 
 2. Why SQL Isn’t Natively Distributed

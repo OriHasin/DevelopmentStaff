@@ -46,8 +46,8 @@ This document summarizes key concepts and functionalities related to Amazon Elas
 - Worker Nodes: EC2: Pay for instance usage; Fargate: Pay per pod CPU/memory usage.
 
 10. Karpenter vs. Cluster Autoscaler:
-- Cluster Autoscaler (CA): Scales nodes by interacting with EC2 Auto Scaling Groups (ASGs), monitors pending pods, and requests new EC2 instances when resources are insufficient.
-- Karpenter: Open-source compute provisioning solution that dynamically manages nodes, optimizing costs by selecting more appropriate instance types. It supports mixed-instance types, spot instances, and burst scaling.
+- Cluster Autoscaler (CA): Scales nodes by interacting with EC2 Auto Scaling Groups (ASGs) of a specific MNG he chose, monitors pending pods, and requests new EC2 instances when resources are insufficient.
+- Karpenter: Open-source compute provisioning solution that dynamically manages nodes, optimizing costs by selecting more appropriate instance types. It supports mixed-instance types, spot instances, and burst scaling, automatically choose the instance type based on pod requirements, not based on existing MNGs.
 
 11. Combining Fargate and EC2 in the same cluster:
 - Mixed Workloads: It's common to run a mix of Fargate (stateless) and EC2 (stateful) services within the same EKS cluster. Fargate profiles determine which pods run on Fargate.
@@ -59,4 +59,5 @@ This document summarizes key concepts and functionalities related to Amazon Elas
 - MNG Scaling and Limitations: MNG stops scaling when it reaches its maximum node capacity. To scale further, increase MNG's maximum size or add another MNG.
 
 Conclusion:
-AWS EKS offers a robust and scalable platform for running containerized applications. Understanding its core components, scaling mechanisms, and best practices is crucial for efficiently managing Kubernetes workloads on AWS. Key differentiators include flexible node management options (self-managed, managed node groups, Fargate), robust scaling tools (Cluster Autoscaler, Karpenter), and security features.
+AWS EKS offers a robust and scalable platform for running containerized applications. Understanding its core components, scaling mechanisms, and best practices is crucial for efficiently managing Kubernetes workloads on AWS.
+Key differentiators include flexible node management options (self-managed, managed node groups, Fargate), robust scaling tools (Cluster Autoscaler, Karpenter), and security features.

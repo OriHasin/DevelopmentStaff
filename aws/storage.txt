@@ -29,4 +29,5 @@ AWS Storage Solutions: EC2, EKS, and ECS
    - **EFS** is ideal for shared, scalable access (e.g., multi-node applications on ECS/EKS).
    - **EBS** is provisioned; **EFS** scales dynamically.
 
-**Summary**: Use EBS for high-performance, instance-specific workloads. Use EFS for scalable, shared workloads across multiple instances or containers.
+**Summary**: Use EBS for high-performance, instance-specific workloads.
+Use EFS for scalable, shared workloads across multiple instances or containers.

@@ -1,0 +1,58 @@
+Hadoop, HDFS, and MapReduce: A Concise Overview
+-----------------------------------------------
+
+
+**What is Hadoop?**
+Hadoop is a framework for distributed storage and processing of large-scale data.
+It is designed to run on commodity hardware, providing fault tolerance, scalability, and efficiency for big data workloads.
+
+
+**Core Components:**
+    1. **HDFS (Hadoop Distributed File System):**
+       - A distributed file system that stores large datasets across multiple nodes.
+       - Splits files into blocks (default: 128 MB) and replicates them (default: 3 replicas) for fault tolerance.
+       - Components:
+         - **NameNode:** Manages metadata and coordinates file access.
+         - **DataNodes:** Store actual data blocks and handle read/write requests.
+       - Optimized for sequential access and write-once-read-many workloads.
+
+    2. **MapReduce:**
+       - A programming model for processing large datasets in parallel.
+       - Operates in two phases:
+         - **Map Phase:** Processes input data into key-value pairs.
+         - **Reduce Phase:** Aggregates key-value pairs to produce final results.
+       - Disk-based: Writes intermediate results to disk, making it less efficient for iterative or memory-intensive tasks.
+
+    3. **YARN (Yet Another Resource Negotiator):**
+       - Manages resources (CPU, memory) across the cluster.
+       - Allocates containers for running MapReduce jobs and supports multi-tenancy.
+
+
+**How It Works:**
+    1. Data is stored in HDFS, split into blocks, and distributed across DataNodes.
+    2. MapReduce jobs process these blocks in parallel, writing intermediate results to disk.
+    3. Results are aggregated and written back to HDFS.
+
+
+**When to Use Hadoop vs. Spark:**
+    1. **Use Hadoop:**
+       - For cost-effective processing of rarely accessed data (cold storage).
+       - When batch processing large datasets is the primary goal.
+       - For periodic workflows like monthly ETL or reporting.
+
+    2. **Use Spark:**
+       - For fast, iterative workloads (e.g., machine learning, graph processing).
+       - When real-time or near-real-time analytics are required (via Structured Streaming).
+       - For unified workloads combining batch, streaming, and analytics.
+
+
+**Key Differences Between Hadoop and Spark:**
+    - **Processing:** Hadoop uses disk-based MapReduce, while Spark processes data in memory (faster).
+    - **Ease of Use:** Spark provides high-level APIs and supports multiple languages (Python, Scala, SQL).
+    - **Performance:** Spark excels in iterative tasks and real-time processing, whereas Hadoop is optimized for batch.
+
+
+**Summary for Senior Engineers:**
+    - Hadoop is a cost-effective and reliable choice for large-scale, disk-intensive batch workloads.
+    - Spark is superior for performance-sensitive applications that require speed, iterative processing, or a unified framework.
+    - Combining Hadoop (HDFS) for storage and Spark for processing is a common architecture.
