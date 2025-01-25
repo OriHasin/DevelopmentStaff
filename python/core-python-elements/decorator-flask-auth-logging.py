@@ -29,7 +29,6 @@ def authenticate(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         token = request.headers.get('Authorization')
-        print('Authrization' in request.headers)
         if not token or token != "valid_token":
             return "Unauthorized", 401
         return func(*args, **kwargs)

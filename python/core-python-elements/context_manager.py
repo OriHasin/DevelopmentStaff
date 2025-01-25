@@ -6,7 +6,7 @@ the exception params in __exit__() is for handling exceptions that happens in wi
 class ContextResourceManager:
 
     def __init__(self, file_name, mode):
-        self.file =  open(file_name, mode)
+        self.file = open(file_name, mode)
 
     def __enter__(self):
         print("start running default __enter__() function...")

@@ -24,7 +24,6 @@ async def main():
     await asyncio.to_thread(cpu_bound_task)
 
     # Wait for the I/O-bound task to complete
-    await io_task
 
 # Run the event loop
 asyncio.run(main())
@@ -35,7 +34,7 @@ asyncio.run(main())
 # The CPU-bound task runs in a separate thread using asyncio.to_thread(), where it holds the GIL
 # most of the time for executing Python bytecode. However, Python periodically releases the GIL
 # (e.g., after a certain number of bytecode instructions). During these brief moments, the event loop
-# can acquire the GIL and execute pending tasks, such as  printing
+# can acquire the GIL and execute pending tasks (moving them from ready queue to call stack - the awaited coroutine)
 # "I/O-bound task complete". This allows both tasks to make progress concurrently.
 
 # If the task is CPU-bound, it's generally better to use synchronous programming or run CPU-bound tasks in separate threads or processes.

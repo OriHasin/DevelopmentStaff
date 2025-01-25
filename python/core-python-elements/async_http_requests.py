@@ -52,7 +52,6 @@ async def send_requests():
     async with aiohttp.ClientSession() as session:
         tasks = [process_request(url, session) for url in urls]
         results = await asyncio.gather(*tasks)
-        print(len(results))
 
     return jsonify(results), 200
 
