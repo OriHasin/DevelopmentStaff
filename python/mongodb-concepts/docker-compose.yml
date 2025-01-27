@@ -1,0 +1,13 @@
+services:
+  mongodb:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongodb_local
+    ports:
+      - "27017:27017"  # Map MongoDB container port to local por
+    volumes:
+      - mongo_data:/data/db  # Persist data locally
+
+volumes:
+  mongo_data:
+    driver: local
+
