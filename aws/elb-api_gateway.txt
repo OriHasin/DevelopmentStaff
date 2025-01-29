@@ -12,7 +12,7 @@ Application Load Balancer (ALB), and Network Load Balancer (NLB) for backend eng
      - Built-in authentication: IAM, Cognito, or custom Lambda authorizers.
      - SSL/TLS termination by default.
    - **When to Use**:
-     - For public-facing APIs with serverless backends (e.g., Lambda).
+     - For public-facing APIs with backends (e.g., Lambda, EKS).
      - Multi-region APIs with Route 53 for global latency optimization.
    - **Limitation**:
      - Stateless: Does not manage sessions or cookies.

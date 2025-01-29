@@ -15,17 +15,20 @@ collection = db["tasks"]
 
 @app.on_event("startup")
 async def create_indexes():
-    print("Create Completed index")
     await collection.create_index([("completed", 1)])
-    print("Create DueDate index")
     await collection.create_index([("due_date", 1)])
+
+
+@app.on_event("shutdown")
+async def clean_resources():
+    client.close()
 
 
 @app.get('/get/', response_model=List[Task])
 async def get_all_tasks(limit: int = 10, page: int = 1):
     results = collection.find().sort("_id", 1).skip((page - 1) * limit).limit(limit)
     results = await results.to_list()
-    print(results)
+
     if results:
         return results
     raise HTTPException(status_code=404, detail="No tasks found...")

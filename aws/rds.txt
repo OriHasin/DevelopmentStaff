@@ -1,6 +1,7 @@
 Amazon RDS Summary for Senior Backend Engineers:
 
-Amazon RDS (Relational Database Service) is a fully managed database service that simplifies setup, operation, and scaling of relational databases in the cloud. It supports various engines, including MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
+Amazon RDS (Relational Database Service) is a fully managed database service that simplifies setup, operation, and scaling of relational databases in the cloud.
+It supports various engines, including MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
 
 Key Concepts:
 

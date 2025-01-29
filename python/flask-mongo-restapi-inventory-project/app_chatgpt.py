@@ -20,7 +20,6 @@ def get_products():
 # GET a specific product
 @app.route('/products/<id>', methods=['GET'])
 def get_product(id):
-    print(ObjectId())
     product = products_collection.find_one({'_id': ObjectId(id)})
     if product:
         product['_id'] = str(product['_id'])

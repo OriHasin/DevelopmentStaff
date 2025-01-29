@@ -34,7 +34,7 @@ def add_product():
 @app.put("/products/<int:id>")
 def update_product(id):
     data = request.json
-    document = mongo.db.products.update_one({'id' : id}, {'$set': data})
+    document = mongo.db.products.update_one({'id': id}, {'$set': data})
     return ""
 
 

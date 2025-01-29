@@ -18,7 +18,7 @@ def get_tasks():
     # Pagination for large data sets processing
     limit = int(request.args.get("limit", 10))
     page = int(request.args.get("page", 1))
-    tasks = mongo.db.tasks.find().skip((page -1) * limit).limit(limit)
+    tasks = mongo.db.tasks.find().sort("_id", 1).skip((page -1) * limit).limit(limit)
 
     tasks = list(tasks)
     for task in tasks:
