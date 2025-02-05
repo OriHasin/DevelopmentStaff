@@ -1,44 +1,55 @@
-class Node:
-    """Class to represent a node in the linked list."""
-    def __init__(self, vertex):
-        self.vertex = vertex
-        self.next = None
+from collections import defaultdict, deque
 
-class Graph:
-    """Class to represent the graph using an adjacency list."""
-    def __init__(self, num_vertices):
-        self.num_vertices = num_vertices
-        self.adj_list = [None] * num_vertices  # Create an array of linked lists
+
+class DirectedGraph:
+    """Graph representation using an adjacency list with a dictionary of lists."""
+    def __init__(self):
+        self.adj_list = defaultdict(list)  # Efficient adjacency list
 
     def add_edge(self, src, dest):
-        """Add an edge to the undirected graph."""
-        # Add the node to the source's adjacency list
-        new_node = Node(dest)
-        new_node.next = self.adj_list[src]
-        self.adj_list[src] = new_node
-
-        # Since it's an undirected graph, add the node to the destination's adjacency list
-        new_node = Node(src)
-        new_node.next = self.adj_list[dest]
-        self.adj_list[dest] = new_node
+        self.adj_list[src].append(dest)
 
     def print_graph(self):
-        """Print the adjacency list representation of the graph."""
-        for i in range(self.num_vertices):
-            print(f"Vertex {i}: ", end="")
-            current = self.adj_list[i]
-            while current:
-                print(f" -> {current.vertex}", end="")
-                current = current.next
-            print()
+        """Print adjacency list."""
+        for vertex, neighbors in self.adj_list.items():
+            print(f"Vertex {vertex}: {' -> '.join(map(str, neighbors))}")
 
-# Example usage
-graph = Graph(5)
-graph.add_edge(0, 1)
-graph.add_edge(0, 2)
-graph.add_edge(0, 3)
-graph.add_edge(1, 4)
-graph.add_edge(2, 4)
-graph.add_edge(3, 4)
 
-graph.print_graph()
+
+
+
+
+def find_lexicographic_order(words_arr: list) -> list:
+    tree = DirectedGraph()
+
+    for word in words_arr:
+        for idx in range(len(word)-1):
+            tree.add_edge(word[idx], word[idx+1])
+
+    return _topo_sort(tree)
+
+
+
+def _topo_sort(tree: DirectedGraph) -> list:
+    topo_sort = []
+    in_degree = defaultdict(int)
+
+    for node in tree.adj_list:
+        for child in tree.adj_list[node]:
+            in_degree[child] += 1
+
+    queue = deque([node for node in tree.adj_list if in_degree[node] == 0])
+
+    while queue:
+        node = queue.pop()
+        topo_sort.append(node)
+        # reduce indegree after removing node from tree
+        for child in tree.adj_list[node]:
+            in_degree[child] -= 1
+            if in_degree[child] == 0:
+                queue.appendleft(child)
+
+    return topo_sort
+
+
+print(find_lexicographic_order(['abc', 'xyd', 'ax', 'xb']))
