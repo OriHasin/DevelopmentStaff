@@ -26,12 +26,12 @@ def find_lexicographic_order(words_arr: list) -> list:
         for idx in range(len(word)-1):
             tree.add_edge(word[idx], word[idx+1])
 
-    return _topo_sort(tree)
+    return topo_sort(tree)
 
 
 
-def _topo_sort(tree: DirectedGraph) -> list:
-    topo_sort = []
+def topo_sort(tree: DirectedGraph) -> list:
+    topo_sort_arr = []
     in_degree = defaultdict(int)
 
     for node in tree.adj_list:
@@ -42,14 +42,14 @@ def _topo_sort(tree: DirectedGraph) -> list:
 
     while queue:
         node = queue.pop()
-        topo_sort.append(node)
+        topo_sort_arr.append(node)
         # reduce indegree after removing node from tree
         for child in tree.adj_list[node]:
             in_degree[child] -= 1
             if in_degree[child] == 0:
                 queue.appendleft(child)
 
-    return topo_sort
+    return topo_sort_arr
 
 
 print(find_lexicographic_order(['abc', 'xyd', 'ax', 'xb']))
